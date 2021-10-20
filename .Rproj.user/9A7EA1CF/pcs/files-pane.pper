@@ -1,0 +1,13 @@
+{
+    "path" : "~/Dropbox/CPTAC_Song/Paper_PrediXcan/upload/code",
+    "sortOrder" : [
+        {
+            "ascending" : false,
+            "columnIndex" : 4
+        },
+        {
+            "ascending" : true,
+            "columnIndex" : 2
+        }
+    ]
+}

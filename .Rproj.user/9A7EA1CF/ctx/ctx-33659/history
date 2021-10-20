@@ -1,0 +1,512 @@
+set.seed(111)
+outcome_example <- rbernoulli(500,0.4)
+MiXcan_weight_result <- MiXcan_extract_weight(MiXcan_model = MiXcan_result)
+x_example
+rbinom(c(0,1,2), 190, replace = T)
+sample(c(0,1,2), 190, replace = T)
+new_X_example <- matrix(sample(c(0,1,2), 190, replace = T), nrow = 10)
+new_X_example
+colnames(new_X_example)
+colnames(new_X_example) <- paste0("id", 1:10)
+rownames(new_X_example) <- paste0("id", 1:10)
+colnames(new_X_example) <- paste0("SNP_", 1:19)
+new_X_example
+MiXcan_prediction(weight = MiXcan_weight_result, new_x = new_X_example)
+new_x = new_X_example
+weight = MiXcan_weight_result
+as.matrix(weight[,1])
+weight
+weight[,"weight_cell_1"]
+as.matrix(weight[,"weight_cell_1"])
+new_x %*% as.matrix(weight[,"weight_cell_1"])
+#' Predict the cell-type specific or non-specific expression levels of a gene with MiXcan model in new genetic data.
+#'
+#' @param weight
+#' @param new_x
+#'
+#' @return A N by 2 matrix indicating the predicted gene expression levels in two
+#' cell types. If a non-specific model is used for prediction, the predicted values should be the same in two cell types.
+#' @export
+#'
+#' @examples
+MiXcan_prediction <- function(weight, new_x){
+yhat_MiXcan_cell_1 <- new_x %*% as.matrix(weight[,"weight_cell_1"])
+yhat_MiXcan_cell_2 <- new_x %*% as.matrix(weight[,"weight_cell_2"])
+yhat_MiXcan_prediction <- cbind(yhat_MiXcan_cell_1, yhat_MiXcan_cell_1)
+colnames(yhat_MiXcan_prediction) <- c("cell_1", "cell_2")
+return(yhat_MiXcan_prediction)
+}
+MiXcan_weight_result <- MiXcan_extract_weight(MiXcan_model = MiXcan_result)
+MiXcan_weight_result
+MiXcan_prediction(weight = MiXcan_weight_result, new_x = new_X_example)
+tolower("Adjusting for Health Status in Non-Linear Models of Health Care Disparities")
+MiXcan_prediction_result
+MiXcan_prediction_result <- MiXcan_prediction(weight = MiXcan_weight_result, new_x = new_X_example)
+set.seed(111)
+outcome_example <- rbernoulli(500,0.4)
+covariates_example <- data.frame(age = rnorm(500,60,10),
+PC1 = rnorm(500,0,0.5),
+country = sample(c("country a", "country b", "country c"), 500, replace = T))
+MiXcan_association_result <- MiXcan_association(MiXcan_predicted_expr = MiXcan_prediction_result,
+covariates = covariates_example, outcome = outcome_example, family  = "binomial")
+MiXcan_predicted_expr = MiXcan_prediction_result
+covariates = covariates_example
+outcome = outcome_example
+family  = "binomial"
+MiXcan_association_dataframe <- cbind(MiXcan_prediction_result, covariates,  y = outcome)
+MiXcan_association_dataframe_glm <- glm(as.formula(paste0("y ~.")), data = MiXcan_association_dataframe, family = family)
+MiXcan_association_dataframe_glm_result <- broom::tidy(MiXcan_association_dataframe_glm)
+MiXcan_association_dataframe_glm_result_cell_1 <- MiXcan_association_dataframe_glm_result %>%
+filter(term == "cell_1")
+MiXcan_association_dataframe_glm_result_cell_2 <- MiXcan_association_dataframe_glm_result %>%
+filter(term == "cell_2")
+if( cor(MiXcan_predicted_expr[,1],MiXcan_predicted_expr[,2]) == 1) {
+MiXcan_association_dataframe_glm_result_cell_2 <- MiXcan_association_dataframe_glm_result_cell_1
+}
+if( cor(MiXcan_predicted_expr[,1],MiXcan_predicted_expr[,2]) == -1) {
+MiXcan_association_dataframe_glm_result_cell_2 <- MiXcan_association_dataframe_glm_result_cell_1 %>%
+mutate(estimate = -estimate)
+}
+ACAT::ACAT(MiXcan_association_dataframe_glm_result_cell_1$p.value, MiXcan_association_dataframe_glm_result_cell_2$p.value)
+MiXcan_association_dataframe_glm_result_cell_1
+MiXcan_association_dataframe_glm_result_cell_1$p.value
+MiXcan_association_dataframe_glm_result_cell_2$p.value
+MiXcan_association_dataframe_glm_result_cell_2
+MiXcan_association_dataframe_glm_result_cell_2
+MiXcan_association_dataframe_glm_result
+cor(MiXcan_predicted_expr[,1],MiXcan_predicted_expr[,2])
+MiXcan_association_dataframe_glm_result_cell_1
+if( cor(MiXcan_predicted_expr[,1],MiXcan_predicted_expr[,2]) == 1) {
+MiXcan_association_dataframe_glm_result_cell_2 <- MiXcan_association_dataframe_glm_result_cell_1
+}
+MiXcan_association_dataframe_glm_result_cell_2
+cor(MiXcan_predicted_expr[,1],MiXcan_predicted_expr[,2]) == 1
+(MiXcan_predicted_expr[,1],MiXcan_predicted_expr[,2])
+cor(MiXcan_predicted_expr[,1],MiXcan_predicted_expr[,2])
+cor(MiXcan_predicted_expr[,1],MiXcan_predicted_expr[,2]) == 1
+?approx()
+cor(MiXcan_predicted_expr[,1],MiXcan_predicted_expr[,2]) >0.99
+#' cell types. If a non-specific model is used for prediction, the predicted values should be the same in two cell types.
+#' @param covariates: A N by P  matrix for the covariates in association analysis
+#' @param outcome: The dependent variable of the association analysis. It can be continuous, categorical
+#' and count variables, and modeled through generalized linear models (GLM).
+#' @param family: Same as the family objected used in GLM.
+#'
+#' @return A tibble showing the estimate, standard error, p value for cell 1 and 2 and the combined p value using the Cauchy distribution
+#' @export MiXcan_association
+#'
+#' @examples
+MiXcan_association <- function(MiXcan_predicted_expr, covariates, outcome, family){
+MiXcan_association_dataframe <- cbind(MiXcan_prediction_result, covariates,  y = outcome)
+MiXcan_association_dataframe_glm <- glm(as.formula(paste0("y ~.")), data = MiXcan_association_dataframe, family = family)
+MiXcan_association_dataframe_glm_result <- broom::tidy(MiXcan_association_dataframe_glm)
+MiXcan_association_dataframe_glm_result_cell_1 <- MiXcan_association_dataframe_glm_result %>%
+filter(term == "cell_1")
+MiXcan_association_dataframe_glm_result_cell_2 <- MiXcan_association_dataframe_glm_result %>%
+filter(term == "cell_2")
+if( cor(MiXcan_predicted_expr[,1],MiXcan_predicted_expr[,2]) > 0.99) {
+MiXcan_association_dataframe_glm_result_cell_2 <- MiXcan_association_dataframe_glm_result_cell_1
+}
+if( cor(MiXcan_predicted_expr[,1],MiXcan_predicted_expr[,2]) <-0.99) {
+MiXcan_association_dataframe_glm_result_cell_2 <- MiXcan_association_dataframe_glm_result_cell_1 %>%
+mutate(estimate = -estimate)
+}
+p_combined <- ACAT::ACAT(MiXcan_association_dataframe_glm_result_cell_1$p.value, MiXcan_association_dataframe_glm_result_cell_2$p.value)
+MiXcan_association_dataframe_result <- MiXcan_association_dataframe_glm_result_cell_1 %>%
+dplyr::select(cell_1_estimate = estimate,
+cell_1_std.error = std.error,
+cell_1_p = p.value) %>%
+bind_cols(MiXcan_association_dataframe_glm_result_cell_2 %>%
+dplyr::select(cell_2_estimate = estimate,
+cell_2_std.error = std.error,
+cell_2_p = p.value)) %>%
+mutate(p_combined = p_combined)
+return(MiXcan_association_dataframe_result)
+}
+MiXcan_association_result <- MiXcan_association(MiXcan_predicted_expr = MiXcan_prediction_result,
+covariates = covariates_example, outcome = outcome_example, family  = "binomial")
+MiXcan_association_dataframe <- cbind(MiXcan_prediction_result, covariates,  y = outcome)
+MiXcan_association_dataframe_glm <- glm(as.formula(paste0("y ~.")), data = MiXcan_association_dataframe, family = family)
+MiXcan_association_dataframe_glm_result <- broom::tidy(MiXcan_association_dataframe_glm)
+MiXcan_association_dataframe_glm_result_cell_1 <- MiXcan_association_dataframe_glm_result %>%
+filter(term == "cell_1")
+MiXcan_association_dataframe_glm_result_cell_2 <- MiXcan_association_dataframe_glm_result %>%
+filter(term == "cell_2")
+if( cor(MiXcan_predicted_expr[,1],MiXcan_predicted_expr[,2]) > 0.99) {
+MiXcan_association_dataframe_glm_result_cell_2 <- MiXcan_association_dataframe_glm_result_cell_1
+}
+if( cor(MiXcan_predicted_expr[,1],MiXcan_predicted_expr[,2]) <-0.99) {
+MiXcan_association_dataframe_glm_result_cell_2 <- MiXcan_association_dataframe_glm_result_cell_1 %>%
+mutate(estimate = -estimate)
+}
+if( cor(MiXcan_predicted_expr[,1],MiXcan_predicted_expr[,2]) > 0.99) {
+MiXcan_association_dataframe_glm_result_cell_2 <- MiXcan_association_dataframe_glm_result_cell_1
+}
+if( cor(MiXcan_predicted_expr[,1],MiXcan_predicted_expr[,2]) < -0.99) {
+MiXcan_association_dataframe_glm_result_cell_2 <- MiXcan_association_dataframe_glm_result_cell_1 %>%
+mutate(estimate = -estimate)
+}
+p_combined <- ACAT::ACAT(MiXcan_association_dataframe_glm_result_cell_1$p.value, MiXcan_association_dataframe_glm_result_cell_2$p.value)
+#' cell types. If a non-specific model is used for prediction, the predicted values should be the same in two cell types.
+#' @param covariates: A N by P  matrix for the covariates in association analysis
+#' @param outcome: The dependent variable of the association analysis. It can be continuous, categorical
+#' and count variables, and modeled through generalized linear models (GLM).
+#' @param family: Same as the family objected used in GLM.
+#'
+#' @return A tibble showing the estimate, standard error, p value for cell 1 and 2 and the combined p value using the Cauchy distribution
+#' @export MiXcan_association
+#'
+#' @examples
+MiXcan_association <- function(MiXcan_predicted_expr, covariates, outcome, family){
+MiXcan_association_dataframe <- cbind(MiXcan_prediction_result, covariates,  y = outcome)
+MiXcan_association_dataframe_glm <- glm(as.formula(paste0("y ~.")), data = MiXcan_association_dataframe, family = family)
+MiXcan_association_dataframe_glm_result <- broom::tidy(MiXcan_association_dataframe_glm)
+MiXcan_association_dataframe_glm_result_cell_1 <- MiXcan_association_dataframe_glm_result %>%
+filter(term == "cell_1")
+MiXcan_association_dataframe_glm_result_cell_2 <- MiXcan_association_dataframe_glm_result %>%
+filter(term == "cell_2")
+if( cor(MiXcan_predicted_expr[,1],MiXcan_predicted_expr[,2]) > 0.99) {
+MiXcan_association_dataframe_glm_result_cell_2 <- MiXcan_association_dataframe_glm_result_cell_1
+}
+if( cor(MiXcan_predicted_expr[,1],MiXcan_predicted_expr[,2]) < -0.99) {
+MiXcan_association_dataframe_glm_result_cell_2 <- MiXcan_association_dataframe_glm_result_cell_1 %>%
+mutate(estimate = -estimate)
+}
+p_combined <- ACAT::ACAT(MiXcan_association_dataframe_glm_result_cell_1$p.value, MiXcan_association_dataframe_glm_result_cell_2$p.value)
+MiXcan_association_dataframe_result <- MiXcan_association_dataframe_glm_result_cell_1 %>%
+dplyr::select(cell_1_estimate = estimate,
+cell_1_std.error = std.error,
+cell_1_p = p.value) %>%
+bind_cols(MiXcan_association_dataframe_glm_result_cell_2 %>%
+dplyr::select(cell_2_estimate = estimate,
+cell_2_std.error = std.error,
+cell_2_p = p.value)) %>%
+mutate(p_combined = p_combined)
+return(MiXcan_association_dataframe_result)
+}
+MiXcan_association_result <- MiXcan_association(MiXcan_predicted_expr = MiXcan_prediction_result,
+covariates = covariates_example, outcome = outcome_example, family  = "binomial")
+MiXcan_association_result
+library(MiXcan)
+devtools::document()
+library(MiXcan)
+GTEx_epithelial_genes <- read_tsv("../upload/intermediate result/GTEx_deidentified_epithelial_genes.tsv") %>%
+dplyr::select(-Gene_ID) %>%
+as.matrix()
+GTEx_prior <- read_tsv("../upload/intermediate result/GTEx_deidentified_prior.tsv") %>%
+pull(prior)
+nCores=detectCores()-1; registerDoParallel(nCores)
+pi_estimation_result <- pi_estimation(expression_matrix = GTEx_epithelial_genes,
+prior = GTEx_prior,
+n_iteration = 5)
+y_example <-  read_csv("../upload/intermediate result/GTEx_ENSG00000107937_deidentified.csv") %>% pull(normalized_expression)
+x_example <- read_csv("../upload/intermediate result/ENSG00000107937_SNP_deidentified_with_noise.csv") %>% dplyr::select(-id) %>% as.matrix()
+cov <- read_csv("../upload/intermediate result/GTEx_cov_deidentified.csv") %>% dplyr::select(-id) %>% as.matrix()
+pi_example <- pi_estimation_result$mean_trim_0.05
+save(GTEx_epithelial_genes, GTEx_prior, y_example, x_example, cov, new_X_example, covariates_example, file = "data/example_data.rda")
+# save(GTEx_epithelial_genes, GTEx_prior, y_example, x_example, cov, new_X_example, covariates_example, file = "data/example_data.rda")
+load("data/example_data.rda")
+devtools::document()
+devtools::document()
+library(MiXcan)
+nCores=detectCores()-1; registerDoParallel(nCores)
+library(MiXcan)
+load("data/example_data.rda")
+nCores=detectCores()-1; registerDoParallel(nCores)
+library(doParallel)
+nCores=detectCores()-1; registerDoParallel(nCores)
+pi_estimation_result <- pi_estimation(expression_matrix = GTEx_epithelial_genes,
+prior = GTEx_prior,
+n_iteration = 5)
+library(doParallel)
+library(tidyverse)
+nCores=detectCores()-1; registerDoParallel(nCores)
+pi_estimation_result <- pi_estimation(expression_matrix = GTEx_epithelial_genes,
+prior = GTEx_prior,
+n_iteration = 5)
+library(MiXcan)
+GTEx_epithelial_genes <- read_tsv("../upload/intermediate result/GTEx_deidentified_epithelial_genes.tsv") %>%
+dplyr::select(-Gene_ID) %>%
+as.matrix()
+GTEx_prior <- read_tsv("../upload/intermediate result/GTEx_deidentified_prior.tsv") %>%
+pull(prior)
+GTEx_epithelial_genes <- read_tsv("../upload/intermediate result/GTEx_deidentified_epithelial_genes.tsv") %>%
+dplyr::select(-Gene_ID) %>%
+as.matrix()
+GTEx_prior <- read_tsv("../upload/intermediate result/GTEx_deidentified_prior.tsv") %>%
+pull(prior)
+nCores=detectCores()-1; registerDoParallel(nCores)
+pi_estimation_result <- pi_estimation(expression_matrix = GTEx_epithelial_genes,
+prior = GTEx_prior,
+n_iteration = 5)
+y_example <-  read_csv("../upload/intermediate result/GTEx_ENSG00000107937_deidentified.csv") %>% pull(normalized_expression)
+x_example <- read_csv("../upload/intermediate result/ENSG00000107937_SNP_deidentified_with_noise.csv") %>% dplyr::select(-id) %>% as.matrix()
+cov_example <- read_csv("../upload/intermediate result/GTEx_cov_deidentified.csv") %>% dplyr::select(-id) %>% as.matrix()
+pi_example <- pi_estimation_result$mean_trim_0.05
+set.seed(111)
+foldid_example <- sample(1:10, length(y_example), replace=T)
+MiXcan_result <- MiXcan(y=y_example, x=x_example, cov = cov_example, pi=pi_example, foldid = foldid_example)
+MiXcan_result$beta.SNP.cell1
+MiXcan_result$beta.SNP.cell2
+new_X_example <- matrix(sample(c(0,1,2), 190, replace = T), nrow = 10)
+rownames(new_X_example) <- paste0("id", 1:10)
+colnames(new_X_example) <- paste0("SNP_", 1:19)
+MiXcan_weight_result <- MiXcan_extract_weight(MiXcan_model = MiXcan_result)
+MiXcan_prediction_result <- MiXcan_prediction(weight = MiXcan_weight_result, new_x = new_X_example)
+set.seed(111)
+outcome_example <- rbernoulli(500,0.4)
+covariates_example <- data.frame(age = rnorm(500,60,10),
+PC1 = rnorm(500,0,0.5),
+country = sample(c("country a", "country b", "country c"), 500, replace = T))
+MiXcan_association_result <- MiXcan_association(MiXcan_predicted_expr = MiXcan_prediction_result,
+covariates = covariates_example, outcome = outcome_example, family  = "binomial")
+save(GTEx_epithelial_genes, GTEx_prior, y_example, x_example, cov_example, new_X_example, covariates_example, file = "data/example_data.rda")
+library(MiXcan)
+library(MiXcan)
+GTEx_epithelial_genes <- read_tsv("../upload/intermediate result/GTEx_deidentified_epithelial_genes.tsv") %>%
+dplyr::select(-Gene_ID) %>%
+as.matrix()
+GTEx_prior <- read_tsv("../upload/intermediate result/GTEx_deidentified_prior.tsv") %>%
+pull(prior)
+nCores=detectCores()-1; registerDoParallel(nCores)
+pi_estimation_result <- pi_estimation(expression_matrix = GTEx_epithelial_genes,
+prior = GTEx_prior,
+n_iteration = 5)
+y_example <-  read_csv("../upload/intermediate result/GTEx_ENSG00000107937_deidentified.csv") %>% pull(normalized_expression)
+x_example <- read_csv("../upload/intermediate result/ENSG00000107937_SNP_deidentified_with_noise.csv") %>% dplyr::select(-id) %>% as.matrix()
+cov_example <- read_csv("../upload/intermediate result/GTEx_cov_deidentified.csv") %>% dplyr::select(-id) %>% as.matrix()
+pi_example <- pi_estimation_result$mean_trim_0.05
+set.seed(111)
+foldid_example <- sample(1:10, length(y_example), replace=T)
+MiXcan_result <- MiXcan(y=y_example, x=x_example, cov = cov_example, pi=pi_example, foldid = foldid_example)
+MiXcan_result$beta.SNP.cell1
+MiXcan_result$beta.SNP.cell2
+new_X_example <- matrix(sample(c(0,1,2), 190, replace = T), nrow = 10)
+rownames(new_X_example) <- paste0("id", 1:10)
+colnames(new_X_example) <- paste0("SNP_", 1:19)
+MiXcan_weight_result <- MiXcan_extract_weight(MiXcan_model = MiXcan_result)
+MiXcan_prediction_result <- MiXcan_prediction(weight = MiXcan_weight_result, new_x = new_X_example)
+set.seed(111)
+outcome_example <- rbernoulli(500,0.4)
+covariates_example <- data.frame(age = rnorm(500,60,10),
+PC1 = rnorm(500,0,0.5),
+country = sample(c("country a", "country b", "country c"), 500, replace = T))
+MiXcan_association_result <- MiXcan_association(MiXcan_predicted_expr = MiXcan_prediction_result,
+covariates = covariates_example, outcome = outcome_example, family  = "binomial")
+MiXcan_association_result
+save(GTEx_epithelial_genes, GTEx_prior, y_example, x_example, cov_example, new_X_example, covariates_example, outcome_example, file = "data/example_data.rda")
+load("data/example_data.rda")
+library(MiXcan)
+GTEx_epithelial_genes <- read_tsv("../upload/intermediate result/GTEx_deidentified_epithelial_genes.tsv") %>%
+dplyr::select(-Gene_ID) %>%
+as.matrix()
+library(doParallel)
+library(tidyverse)
+library(MiXcan)
+GTEx_epithelial_genes <- read_tsv("../upload/intermediate result/GTEx_deidentified_epithelial_genes.tsv") %>%
+dplyr::select(-Gene_ID) %>%
+as.matrix()
+GTEx_prior <- read_tsv("../upload/intermediate result/GTEx_deidentified_prior.tsv") %>%
+pull(prior)
+nCores=detectCores()-1; registerDoParallel(nCores)
+pi_estimation_result <- pi_estimation(expression_matrix = GTEx_epithelial_genes,
+prior = GTEx_prior,
+n_iteration = 5)
+y_example <-  read_csv("../upload/intermediate result/GTEx_ENSG00000107937_deidentified.csv") %>% pull(normalized_expression)
+x_example <- read_csv("../upload/intermediate result/ENSG00000107937_SNP_deidentified_with_noise.csv") %>% dplyr::select(-id) %>% as.matrix()
+cov_example <- read_csv("../upload/intermediate result/GTEx_cov_deidentified.csv") %>% dplyr::select(-id) %>% as.matrix()
+pi_example <- pi_estimation_result$mean_trim_0.05
+set.seed(111)
+foldid_example <- sample(1:10, length(y_example), replace=T)
+MiXcan_result <- MiXcan(y=y_example, x=x_example, cov = cov_example, pi=pi_example, foldid = foldid_example)
+MiXcan_result$beta.SNP.cell1
+MiXcan_result$beta.SNP.cell2
+new_X_example <- matrix(sample(c(0,1,2), 190, replace = T), nrow = 10)
+rownames(new_X_example) <- paste0("id", 1:10)
+colnames(new_X_example) <- paste0("SNP_", 1:19)
+MiXcan_weight_result <- MiXcan_extract_weight(MiXcan_model = MiXcan_result)
+MiXcan_prediction_result <- MiXcan_prediction(weight = MiXcan_weight_result, new_x = new_X_example)
+set.seed(111)
+outcome_example <- rbernoulli(500,0.4)
+covariates_example <- data.frame(age = rnorm(500,60,10),
+PC1 = rnorm(500,0,0.5),
+country = sample(c("country a", "country b", "country c"), 500, replace = T))
+MiXcan_association_result <- MiXcan_association(MiXcan_predicted_expr = MiXcan_prediction_result,
+covariates = covariates_example, outcome = outcome_example, family  = "binomial")
+MiXcan_association_result
+save(GTEx_epithelial_genes, GTEx_prior, y_example, x_example, cov_example, new_X_example, covariates_example, outcome_example, file = "data/example_data.rda")
+load("data/example_data.rda")
+---
+output: github_document
+---
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+# `MiXcan`
+## Introduction
+The goal of **iProFun** is to
+* a
+* b
+A full description of the method can be found in our [paper](url link).
+```{r setup, include=TRUE}
+knitr::opts_chunk$set(echo = TRUE)
+library(MiXcan)
+```
+### Installation
+You can install the latest version directly from GitHub with [devtools](https://github.com/hadley/devtools):
+```R
+install.packages("devtools")
+devtools::install_github("songxiaoyu/MiXcan")
+````
+## Example of use
+Below is an example of MiXcan analysis pipeline.
+### Data
+The sample data are included in the Github page. We will load the data:
+```{r}
+library(MiXcan)
+load("data/example_data.rda")
+```
+### MiXcan analysis pipeline
+1. Pi estimation
+```{r}
+library(doParallel)
+library(tidyverse)
+nCores=detectCores()-1; registerDoParallel(nCores)
+pi_estimation_result <- pi_estimation(expression_matrix = GTEx_epithelial_genes,
+prior = GTEx_prior,
+n_iteration = 5)
+```
+2. Implement the MiXcan function
+```{r}
+set.seed(111)
+foldid_example <- sample(1:10, length(y_example), replace=T)
+MiXcan_result <- MiXcan(y=y_example, x=x_example, cov = cov_example, pi= pi_estimation_result$mean_trim_0.05, foldid = foldid_example)
+MiXcan_result$beta.SNP.cell1
+MiXcan_result$beta.SNP.cell2
+```
+3. Extract the weight result
+```{r}
+MiXcan_weight_result <- MiXcan_extract_weight(MiXcan_model = MiXcan_result)
+```
+4. Predict the cell-type specific or non-specific expression levels of a gene with MiXcan model in new genetic data.
+```{r}
+MiXcan_prediction_result <- MiXcan_prediction(weight = MiXcan_weight_result, new_x = new_X_example)
+```
+5. Association analysis with MiXcan predicted gene expression levels
+```{r}
+MiXcan_association_result <- MiXcan_association(MiXcan_predicted_expr = MiXcan_prediction_result,
+covariates = covariates_example, outcome = outcome_example, family  = "binomial")
+MiXcan_association_result
+```
+devtools::document()
+library(MiXcan)
+devtools::build_manual()
+devtools::document()
+library(MiXcan)
+library(MiXcan)
+GTEx_epithelial_genes <- read_tsv("../upload/intermediate result/GTEx_deidentified_epithelial_genes.tsv") %>%
+dplyr::select(-Gene_ID) %>%
+as.matrix()
+GTEx_prior <- read_tsv("../upload/intermediate result/GTEx_deidentified_prior.tsv") %>%
+pull(prior)
+library(doParallel)
+GTEx_epithelial_genes <- read_tsv("../upload/intermediate result/GTEx_deidentified_epithelial_genes.tsv") %>%
+dplyr::select(-Gene_ID) %>%
+as.matrix()
+library(tidyverse)
+library(doParallel)
+GTEx_epithelial_genes <- read_tsv("../upload/intermediate result/GTEx_deidentified_epithelial_genes.tsv") %>%
+dplyr::select(-Gene_ID) %>%
+as.matrix()
+GTEx_prior <- read_tsv("../upload/intermediate result/GTEx_deidentified_prior.tsv") %>%
+pull(prior)
+nCores=detectCores()-1; registerDoParallel(nCores)
+pi_estimation_result <- pi_estimation(expression_matrix = GTEx_epithelial_genes,
+prior = GTEx_prior,
+n_iteration = 5)
+y_example <-  read_csv("../upload/intermediate result/GTEx_ENSG00000107937_deidentified.csv") %>% pull(normalized_expression)
+x_example <- read_csv("../upload/intermediate result/ENSG00000107937_SNP_deidentified_with_noise.csv") %>% dplyr::select(-id) %>% as.matrix()
+cov_example <- read_csv("../upload/intermediate result/GTEx_cov_deidentified.csv") %>% dplyr::select(-id) %>% as.matrix()
+pi_example <- pi_estimation_result$mean_trim_0.05
+set.seed(111)
+foldid_example <- sample(1:10, length(y_example), replace=T)
+MiXcan_result <- MiXcan(y=y_example, x=x_example, cov = cov_example, pi=pi_example, foldid = foldid_example)
+MiXcan_result$beta.SNP.cell1
+MiXcan_result$beta.SNP.cell2
+new_X_example <- matrix(sample(c(0,1,2), 190, replace = T), nrow = 10)
+rownames(new_X_example) <- paste0("id", 1:10)
+colnames(new_X_example) <- paste0("SNP_", 1:19)
+MiXcan_weight_result <- MiXcan_extract_weight(MiXcan_model = MiXcan_result)
+MiXcan_weight_result
+MiXcan_prediction_result
+new_X_example
+MiXcan_weight_result
+new_X_example %>%
+slice(4)
+new_X_example %>%
+head(4)
+new_X_example <- new_X_example %>%
+head(4)
+MiXcan_prediction_result <- MiXcan_prediction(weight = MiXcan_weight_result, new_x = new_X_example)
+MiXcan_weight_result
+new_X_example
+new_X_example
+MiXcan_weight_result
+MiXcan_weight_result <- MiXcan_extract_weight(MiXcan_model = MiXcan_result)
+new_X_example <- new_X_example %>%
+select(SNP3, SNP4, SNP10, SNP19)
+new_X_example
+new_X_example <- matrix(sample(c(0,1,2), 190, replace = T), nrow = 10)
+set.seed(111)
+foldid_example <- sample(1:10, length(y_example), replace=T)
+MiXcan_result <- MiXcan(y=y_example, x=x_example, cov = cov_example, pi=pi_example, foldid = foldid_example)
+MiXcan_result$beta.SNP.cell1
+MiXcan_result$beta.SNP.cell2
+new_X_example <- matrix(sample(c(0,1,2), 190, replace = T), nrow = 10)
+rownames(new_X_example) <- paste0("id", 1:10)
+set.seed(111)
+new_X_example <- matrix(sample(c(0,1,2), 190, replace = T), nrow = 10)
+rownames(new_X_example) <- paste0("id", 1:10)
+colnames(new_X_example) <- paste0("SNP_", 1:19)
+MiXcan_weight_result <- MiXcan_extract_weight(MiXcan_model = MiXcan_result)
+new_X_example <- new_X_example %>%
+select(SNP3, SNP4, SNP10, SNP19)
+new_X_example
+new_X_example <- new_X_example %>%
+as.data.frame() %>%
+select(SNP3, SNP4, SNP10, SNP19)
+new_X_example %>%
+as.data.frame()
+MiXcan_weight_result
+set.seed(111)
+new_X_example <- matrix(sample(c(0,1,2), 190, replace = T), nrow = 10)
+rownames(new_X_example) <- paste0("id", 1:10)
+colnames(new_X_example) <- paste0("SNP", 1:19)
+MiXcan_weight_result <- MiXcan_extract_weight(MiXcan_model = MiXcan_result)
+new_X_example <- new_X_example %>%
+as.data.frame() %>%
+select(SNP3, SNP4, SNP10, SNP19)
+MiXcan_prediction_result <- MiXcan_prediction(weight = MiXcan_weight_result, new_x = new_X_example)
+new_X_example
+set.seed(111)
+new_X_example <- matrix(sample(c(0,1,2), 190, replace = T), nrow = 10)
+rownames(new_X_example) <- paste0("id", 1:10)
+colnames(new_X_example) <- paste0("SNP", 1:19)
+MiXcan_weight_result <- MiXcan_extract_weight(MiXcan_model = MiXcan_result)
+new_X_example <- new_X_example %>%
+as.data.frame() %>%
+select(SNP3, SNP4, SNP10, SNP19) %>%
+as.matrix()
+MiXcan_prediction_result <- MiXcan_prediction(weight = MiXcan_weight_result, new_x = new_X_example)
+set.seed(111)
+outcome_example <- rbernoulli(500,0.4)
+covariates_example <- data.frame(age = rnorm(500,60,10),
+PC1 = rnorm(500,0,0.5),
+country = sample(c("country a", "country b", "country c"), 500, replace = T))
+MiXcan_association_result <- MiXcan_association(MiXcan_predicted_expr = MiXcan_prediction_result,
+covariates = covariates_example, outcome = outcome_example, family  = "binomial")
+MiXcan_association_result
+save(GTEx_epithelial_genes, GTEx_prior, y_example, x_example, cov_example, new_X_example, covariates_example, outcome_example, file = "data/example_data.rda")
+MiXcan_association_result
+save(GTEx_epithelial_genes, GTEx_prior, y_example, x_example, cov_example, new_X_example, covariates_example, outcome_example, file = "data/example_data.rda")
+y_example
+new_X_example
+devtools::document()

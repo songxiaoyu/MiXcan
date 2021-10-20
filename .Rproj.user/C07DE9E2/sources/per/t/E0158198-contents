@@ -1,0 +1,42 @@
+library(MiXcan)
+
+GTEx_epithelial_genes <- read_tsv("../upload/intermediate result/GTEx_deidentified_epithelial_genes.tsv") %>% 
+  dplyr::select(-Gene_ID) %>% 
+  as.matrix()
+
+GTEx_prior <- read_tsv("../upload/intermediate result/GTEx_deidentified_prior.tsv") %>% 
+  pull(prior)
+
+nCores=detectCores()-1; registerDoParallel(nCores)
+pi_estimation_result <- pi_estimation(expression_matrix = GTEx_epithelial_genes,
+              prior = GTEx_prior,
+              n_iteration = 5)
+
+y_example <-  read_csv("../upload/intermediate result/GTEx_ENSG00000107937_deidentified.csv") %>% pull(normalized_expression)
+x_example <- read_csv("../upload/intermediate result/ENSG00000107937_SNP_deidentified_with_noise.csv") %>% dplyr::select(-id) %>% as.matrix()
+cov_example <- read_csv("../upload/intermediate result/GTEx_cov_deidentified.csv") %>% dplyr::select(-id) %>% as.matrix()
+pi_example <- pi_estimation_result$mean_trim_0.05
+
+set.seed(111)
+foldid_example <- sample(1:10, length(y_example), replace=T)
+MiXcan_result <- MiXcan(y=y_example, x=x_example, cov = cov_example, pi=pi_example, foldid = foldid_example)
+MiXcan_result$beta.SNP.cell1
+MiXcan_result$beta.SNP.cell2
+
+new_X_example <- matrix(sample(c(0,1,2), 190, replace = T), nrow = 10)
+rownames(new_X_example) <- paste0("id", 1:10)
+colnames(new_X_example) <- paste0("SNP_", 1:19)
+MiXcan_weight_result <- MiXcan_extract_weight(MiXcan_model = MiXcan_result)
+
+MiXcan_prediction_result <- MiXcan_prediction(weight = MiXcan_weight_result, new_x = new_X_example)
+
+set.seed(111)
+outcome_example <- rbernoulli(500,0.4)
+covariates_example <- data.frame(age = rnorm(500,60,10),
+                                 PC1 = rnorm(500,0,0.5),
+                                 country = sample(c("country a", "country b", "country c"), 500, replace = T))
+MiXcan_association_result <- MiXcan_association(MiXcan_predicted_expr = MiXcan_prediction_result,
+                                                covariates = covariates_example, outcome = outcome_example, family  = "binomial")
+MiXcan_association_result
+save(GTEx_epithelial_genes, GTEx_prior, y_example, x_example, cov_example, new_X_example, covariates_example, outcome_example, file = "data/example_data.rda")
+load("data/example_data.rda")
