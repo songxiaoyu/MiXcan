@@ -13,4 +13,4 @@ Imports:
     doParallel,
     tidyverse
 Remotes:  
-    GitHub::yaowuliu/ACAT
+    github::yaowuliu/ACAT
