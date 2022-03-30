@@ -39,7 +39,7 @@ A full description of the method can be found in our [paper](https://www.biorxiv
 
 ```{r setup, include=TRUE}
 knitr::opts_chunk$set(echo = TRUE)
-library(MiXcan)
+library(MiXcan) 
 ```
 
 
@@ -52,7 +52,7 @@ You can install the latest version directly from GitHub with [devtools](https://
 ```R
 install.packages("devtools")
 devtools::install_github("songxiaoyu/MiXcan")
-glmnet
+
 ````
 
 ## Example of use
