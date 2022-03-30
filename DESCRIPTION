@@ -12,3 +12,5 @@ RoxygenNote: 7.1.1
 Imports: 
     doParallel,
     tidyverse
+Remotes:  
+    GitHub::yaowuliu/ACAT

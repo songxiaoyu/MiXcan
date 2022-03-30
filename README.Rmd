@@ -52,7 +52,6 @@ You can install the latest version directly from GitHub with [devtools](https://
 ```R
 install.packages("devtools")
 devtools::install_github("songxiaoyu/MiXcan")
-devtools::install_github("yaowuliu/ACAT") # to install a dependent package
 
 ````
 
@@ -106,6 +105,7 @@ MiXcan_prediction_result
 Step 5: Association analysis with MiXcan predicted gene expression levels
 
 ```{r}
+library(ACAT)
 MiXcan_association_result <- MiXcan_association(MiXcan_predicted_expr = MiXcan_prediction_result,
                                                 covariates = covariates_example, outcome = outcome_example, family  = "binomial")
 MiXcan_association_result
