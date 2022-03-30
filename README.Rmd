@@ -69,7 +69,7 @@ CPU: 2.3 GHz 8-core
 
 The github package is developed on macOS operating systems. The MiXcan pacakge is developed under an open source software R (version 3.5.1). Different versions of R can be downloaded at https://cran.r-project.org/. 
 
-### Package Installtion
+### Package Installation
 
 With R, users can install the MiXcan package directly from GitHub with [devtools](https://github.com/hadley/devtools):
 
@@ -79,9 +79,10 @@ devtools::install_github("songxiaoyu/MiXcan")
 
 ````
 The typical install time of the package is less than 5 minutes. 
+
 ## Example of use
 
-Below demonstrates the MiXcan analysis pipeline using a single peusdo gene. 
+Below demonstrates the MiXcan analysis pipeline on a single peusdo gene. In reality, multiple genes can be analyzed in parallel. 
 
 ### Data
 
