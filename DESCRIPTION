@@ -1,15 +1,15 @@
 Package: MiXcan
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Cell-type-Specific Transcriptome-Wide Association Studies with Bulk Tissue Data
 Version: 0.1.0
 Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+Maintainer: The package maintainer <xiaoyu.song@mountsinai.org>
+Description: The goal of MiXcan is to construct cell-type-specific (and nonspecific) gene expression prediction models, apply these models to predict cell-type-specific gene expression levels in new genotype data, and perform cell-type-specific TWAS.
+License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.1.1
 Imports: 
     doParallel,
-    tidyverse
+    tidyverse,
+    ACAT

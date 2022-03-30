@@ -3,18 +3,39 @@ output: github_document
 ---
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# `MiXcan: Statistical Models for Cell-type Specific Transcriptome-Wide Association Studies with Bulk Tissue Data`
+# `MiXcan: Statistical Framework for Cell-type-Specific Transcriptome-Wide Association Studies with Bulk Tissue Data`
 
-## Introduction
+## Introduction to **MiXcan**
 
-Considering the cell-type composition of a tissue, the goal of **MiXcan** is to 
+**Goal:** 
+* Construct cell-type-specific gene expression prediction models;
+* Apply these models to predict cell-type-specific gene expression levels in new genotype data; and
+* Perform cell-type-specific TWAS.
 
-* Provide the cell-type specific gene expression levels and improve the prediction accuracy for the tissue.  
+**Advantages over tissue-level TWAS:**
+* Improve expression prediction accuracy; 
+* Boost the study power, especially for genes that function in minor cell types or have different association directions in different cell types;
+* Shed light on the responsible cell type(s) of  associations. 
 
-* Boost the study power for gene identifications in TWAS and shed light on the functional cell type(s) of the associations. 
+**Disadvantages over tissue-level TWAS:**
+* Require prior knowledge on cell types 
+* Increased complexity with more model parameters 
+* Maybe less powerful for genes that (1) have different associations with genotypes in different cell types, and (2) have similar associations with phenotypes in different cell types or are associated with disease in major cell types. 
 
 
-A full description of the method can be found in our [paper](url link).
+**Input:**
+* Prediction model construction: Same as in PrediXcan (genotype, covariates, and gene expression data) + prior cell-type composition estimates (e.g. from existing methods, such as ESTIMATE, CIBERSORT, xCell). 
+* Association Analysis: Same as in PrediXcan (genotype, covariates and phenotype data).
+
+
+**Output:**
+* Prediction model construction: Cell-type-specific and nonspecific prediction weights. 
+* Association Analysis: Tissue-level association p-values and cell-type-level association summaries including estimates, standard error and p-values.
+
+
+
+
+A full description of the method can be found in our [paper](https://www.biorxiv.org/content/10.1101/2022.03.15.484509v1.abstract).
 
 ```{r setup, include=TRUE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -31,11 +52,12 @@ You can install the latest version directly from GitHub with [devtools](https://
 ```R
 install.packages("devtools")
 devtools::install_github("songxiaoyu/MiXcan")
+glmnet
 ````
 
 ## Example of use
 
-Below is an example of MiXcan analysis pipeline.  
+Below is an example of MiXcan analysis pipeline using a single peusdo gene. 
 
 ### Data
 
@@ -48,17 +70,17 @@ load("data/example_data.rda")
 
 ### MiXcan analysis pipeline
 
-Step 1 (option): Improving the estimation of the cell-type composition Pi.  
+Step 1 (optional): Improving the estimation of the cell-type composition Pi.  
 ```{r}
 library(doParallel)
 library(tidyverse)
 nCores=detectCores()-1; registerDoParallel(nCores) # use parallel computing but leave 1 core out. 
 pi_estimation_result <- pi_estimation(expression_matrix = GTEx_epithelial_genes,
               prior = GTEx_prior,
-              n_iteration = 5)
+              n_iteration = 5) 
 ```
 
-Step 2. Estimating cell-type specific (and non-specific) prediction weights for the expression levels of a gene using the MiXcan function
+Step 2: Estimating cell-type-specific (and nonspecific) prediction weights for the expression levels of a gene using the MiXcan function
 
 ```{r}
 set.seed(111)
@@ -68,23 +90,31 @@ MiXcan_result$beta.SNP.cell1
 MiXcan_result$beta.SNP.cell2
 ```
 
-3. Extract the weights from the output of MiXcan function.
+Step 3: Extract the weights from the output of MiXcan function.
 ```{r}
 MiXcan_weight_result <- MiXcan_extract_weight(MiXcan_model = MiXcan_result)
 MiXcan_weight_result
 ```
 
-4. Predict the cell-type specific or non-specific expression levels of a gene with MiXcan model in new genetic data.
+Step 4: Predict the cell-type-specific or nonspecific expression levels of a gene with MiXcan model in new genetic data.
 ```{r}
 MiXcan_prediction_result <- MiXcan_prediction(weight = MiXcan_weight_result, new_x = new_X_example)
 MiXcan_prediction_result
 ```
 
-5. Association analysis with MiXcan predicted gene expression levels
+Step 5: Association analysis with MiXcan predicted gene expression levels
 
 ```{r}
 MiXcan_association_result <- MiXcan_association(MiXcan_predicted_expr = MiXcan_prediction_result,
                                                 covariates = covariates_example, outcome = outcome_example, family  = "binomial")
 MiXcan_association_result
 
+```
+
+## Pretrained models
+
+MiXcan pre-trained models (Step 1-3) using the mammary tissues of 125 Eurpean Ancestry (EA) can be accessed by  
+
+```{r}
+weights=read.table("data/MiXcan_model_weights_trained_in_GTEx_v8_mammary.tsv", header=T)
 ```
