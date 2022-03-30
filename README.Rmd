@@ -67,7 +67,7 @@ CPU: 2.3 GHz 8-core
 
 ### Software Requirements
 
-The github package is developed on macOS operating systems. The MiXcan pacakge is developed under an open source software R (version 3.5.1). Different versions of R can be downloaded at https://cran.r-project.org/. 
+The github package is developed on macOS operating systems. The MiXcan pacakge is developed under an open source software R (version 4.1.2). Different versions of R can be downloaded at https://cran.r-project.org/. 
 
 ### Package Installation
 
