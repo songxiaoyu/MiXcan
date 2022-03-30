@@ -63,6 +63,7 @@ library(MiXcan)
 The MiXcan package requires only a standard computer with a reasonable RAM/CPU to support the operations. The minimal RAM recommended by authors is 2 GB. Authors used a computer with the following specification:
 
 RAM: 32 GB
+
 CPU: 2.3 GHz 8-core
 
 ### Software Requirements
