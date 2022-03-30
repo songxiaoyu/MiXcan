@@ -3,7 +3,7 @@ output: github_document
 ---
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# `MiXcan: Statistical Framework for Cell-type-Specific Transcriptome-Wide Association Studies with Bulk Tissue Data`
+#`MiXcan: Statistical Framework for Cell-type-Specific Transcriptome-Wide Association Studies with Bulk Tissue Data`
 
 ## Introduction to **MiXcan**
 
@@ -105,7 +105,7 @@ MiXcan_prediction_result
 Step 5: Association analysis with MiXcan predicted gene expression levels
 
 ```{r}
-library(ACAT)
+
 MiXcan_association_result <- MiXcan_association(MiXcan_predicted_expr = MiXcan_prediction_result,
                                                 covariates = covariates_example, outcome = outcome_example, family  = "binomial")
 MiXcan_association_result
