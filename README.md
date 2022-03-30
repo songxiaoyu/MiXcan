@@ -71,16 +71,18 @@ RAM/CPU to support the operations. The minimal RAM recommended by
 authors is 2 GB. Authors used a computer with the following
 specification:
 
-RAM: 32 GB CPU: 2.3 GHz 8-core
+RAM: 32 GB
+
+CPU: 2.3 GHz 8-core
 
 ### Software Requirements
 
 The github package is developed on macOS operating systems. The MiXcan
-pacakge is developed under an open source software R (version 3.5.1).
+pacakge is developed under an open source software R (version 4.1.2).
 Different versions of R can be downloaded at
 <https://cran.r-project.org/>.
 
-### Package Installtion
+### Package Installation
 
 With R, users can install the MiXcan package directly from GitHub with
 [devtools](https://github.com/hadley/devtools):
@@ -90,11 +92,12 @@ install.packages("devtools")
 devtools::install_github("songxiaoyu/MiXcan")
 ```
 
-The typical install time of the package is less than 5 minutes. ##
-Example of use
+The typical install time of the package is less than 5 minutes.
 
-Below demonstrates the MiXcan analysis pipeline using a single peusdo
-gene.
+## Example of use
+
+Below demonstrates the MiXcan analysis pipeline on a single peusdo gene.
+In reality, multiple genes can be analyzed in parallel.
 
 ### Data
 
