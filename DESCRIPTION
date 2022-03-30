@@ -11,6 +11,4 @@ LazyData: true
 RoxygenNote: 7.1.1
 Imports: 
     doParallel,
-    tidyverse,
-    Remotes,
-    Remotes: yaowuliu/ACAT
+    tidyverse

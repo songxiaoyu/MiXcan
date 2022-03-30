@@ -52,6 +52,7 @@ You can install the latest version directly from GitHub with [devtools](https://
 ```R
 install.packages("devtools")
 devtools::install_github("songxiaoyu/MiXcan")
+devtools::install_github("yaowuliu/ACAT") # to install a dependent package
 
 ````
 
