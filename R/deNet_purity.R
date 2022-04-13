@@ -43,7 +43,7 @@ deNet_purity<-function(exprM,purity)
   #####
   estimateP=TRUE; bootstrap=0; betaModel=TRUE
   t<-proc.time()
- 
+
   options(warn=-1)
   convergecutoff=0.1 ### convergence criterion for EM
   if(bootstrap>0){
@@ -68,9 +68,9 @@ deNet_purity<-function(exprM,purity)
       if(j==1){
         cur.P<-purity;
         cur.b<-mean(cur.P)*(1-mean(cur.P))/var(cur.P)-1
-      }else{
-        print(paste("Epurity",j,":",cor(purity,cur.P)))
-      }
+      }#else{
+       # print(paste("Epurity",j,":",cor(purity,cur.P)))
+      #}
 
       ## -- Estimate u and v (mean and variance of latent variables, i.e., uy uz vy vz)
 
@@ -129,8 +129,8 @@ for(i in 1:10000) {
     break()}
   cur.b<-new.b;
   cur.P<-new.P
-  print(cur.b)
-  print(mean(abs(cur.P-purity)))
+  #print(cur.b)
+  #print(mean(abs(cur.P-purity)))
 }
 # print(paste("cur.b",cur.b))
 

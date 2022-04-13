@@ -142,8 +142,9 @@ library(tidyverse)
 
 ``` r
 nCores=detectCores()-1; registerDoParallel(nCores) # use parallel computing but leave 1 core out. 
+# Note: 0<prior<1 that prior should not hit the boundaries. If xCell score is used, check zero.
 pi_estimation_result <- pi_estimation(expression_matrix = GTEx_epithelial_genes,
-              prior = GTEx_prior,
+              prior = GTEx_prior, 
               n_iteration = 5) 
 ```
 
