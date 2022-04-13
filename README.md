@@ -146,18 +146,15 @@ nCores=detectCores()-1; registerDoParallel(nCores) # use parallel computing but 
 pi_estimation_result <- pi_estimation(expression_matrix = GTEx_epithelial_genes,
               prior = GTEx_prior, 
               n_iteration = 5) 
+pi_estimation_result[1:3,]
 ```
 
-    ## [1] "EM algorithm converged"
-    ## [1] 1
-    ## [1] "EM algorithm converged"
-    ## [1] 2
-    ## [1] "EM algorithm converged"
-    ## [1] 3
-    ## [1] "EM algorithm converged"
-    ## [1] 4
-    ## [1] "EM algorithm converged"
-    ## [1] 5
+    ## # A tibble: 3 × 2
+    ##   sample     mean_trim_0.05
+    ##   <chr>               <dbl>
+    ## 1 sample_1            0.239
+    ## 2 sample_10           0.226
+    ## 3 sample_100          0.1
 
 Step 2: Estimating cell-type-specific (and nonspecific) prediction
 weights for the expression levels of a gene using the MiXcan function
@@ -267,6 +264,12 @@ levels
 ``` r
 MiXcan_association_result <- MiXcan_association(MiXcan_predicted_expr = MiXcan_prediction_result,
                                                 covariates = covariates_example, outcome = outcome_example, family  = "binomial")
+```
+
+    ## Warning in data.frame(..., check.names = FALSE): row names were found from a
+    ## short variable and have been discarded
+
+``` r
 MiXcan_association_result
 ```
 
