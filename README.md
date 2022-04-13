@@ -105,7 +105,7 @@ The peusdo data are included in the Github page. We can load the data:
 
 ``` r
 library(MiXcan)
-load("data/example_data.rda")
+data(example_data)
 ```
 
 ### MiXcan analysis pipeline
