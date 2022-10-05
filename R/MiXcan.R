@@ -29,18 +29,20 @@ MiXcan=function(y, x, cov=NULL, pi, nameMatrix=NULL,
   # create new predictors
   x=as.matrix(x); y=as.matrix(y)
   n=nrow(x); p=ncol(x)
+
   if(is.null(nameMatrix)) {nameMatrix=paste0("SNP", 1:p)}
   if (is.null(foldid)) {foldid= sample(1:10, n, replace=T)}
 
   if (is.null(cov)) {
     pcov=0; xcov=x;
-    ci=pi-0.5; z=ci*x; xx=cbind(ci, x, z)
+    ci=pi-0.5; z=ci*x; z=as.matrix(z); xx=as.matrix(cbind(ci, x, z))
   }
 
   if (is.null(cov)==F) {
     cov=as.matrix(cov)
-    pcov=ncol(cov); xcov=cbind(x, cov)
-    ci=pi-0.5; z=ci*x; xx=cbind(ci, x, z, cov)
+    pcov=ncol(cov); xcov=as.matrix(cbind(x, cov))
+    ci=pi-0.5; z=ci*x;
+    xx=as.matrix(cbind(ci, x, z, cov))
   }
 
   # tissue model
@@ -49,7 +51,11 @@ MiXcan=function(y, x, cov=NULL, pi, nameMatrix=NULL,
   est.tissue=c(ft0$a0,as.numeric(ft0$beta))
 
   # cell type specific model
-  ft11=glmnet::cv.glmnet(x=xx, y=y, penalty.factor=c(0, rep(1, ncol(xx)-1)), family="gaussian", foldid=foldid, alpha=0.5)
+
+  ft11=glmnet::cv.glmnet(x=xx, y=y,
+                         penalty.factor=c(0, rep(1, ncol(xx)-1)),
+                         family="gaussian", foldid=foldid, alpha=0.5)
+
   ft=glmnet::glmnet(x=xx, y=y, penalty.factor=c(0, rep(1, ncol(xx)-1)), family="gaussian",
              lambda = ft11$lambda.1se, alpha=0.5)
   est=c(ft$a0,as.numeric(ft$beta))
