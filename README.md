@@ -1,56 +1,56 @@
 
-<!-- README.md is generated from README.Rmd. Please edit that file -->
+<!-- README.md is generated from README.Rmd. Please edit README.Rmd file -->
 
-# `MiXcan: Statistical Framework for Cell-type-Specific Transcriptome-Wide Association Studies with Bulk Tissue Data`
+# `MiXcan: Statistical Framework for Cell-type-Aware Transcriptome-Wide Association Studies with Bulk Tissue Data`
 
 ## Introduction to **MiXcan**
 
 **Goal:**
 
-  - Construct cell-type-specific gene expression prediction models;
+-   Constructs cell-type-level prediction models for genetically
+    regulated expression (GReX);
 
-  - Apply these models to predict cell-type-specific gene expression
-    levels in new genotype data; and
+-   Predicts cell-type-level GReX in new genotype data; and
 
-  - Perform cell-type-specific TWAS.
+-   Performs cell-type-aware TWAS.
 
 **Advantages over tissue-level TWAS:**
 
-  - Improve expression prediction accuracy;
+-   Improves GReX prediction accuracy;
 
-  - Boost the study power, especially for genes that function in minor
+-   Boosts the study power, especially for genes that function in minor
     cell types or have different association directions in different
     cell types;
 
-  - Shed light on the responsible cell type(s) of associations.
+-   Sheds light on the responsible cell type(s) of associations.
 
 **Disadvantages over tissue-level TWAS:**
 
-  - Require prior knowledge on cell types
+-   Requires prior knowledge on disease-critical cell types and their
+    proportions in tissue;
 
-  - Increased complexity with more model parameters
+-   Has more model parameters;
 
-  - May be less powerful for genes that (1) have different associations
-    with genotypes in different cell types, and (2) have similar
-    associations with phenotypes in different cell types or are
-    associated with disease in major cell types.
+-   May be less powerful than tissue-level TWAS for genes that have
+    similar disease associations in different cell types or function in
+    major cell types.
 
 **Input:**
 
-  - Prediction model construction: Same as in PrediXcan (genotype,
-    covariates, and gene expression data) + prior cell-type composition
+-   Prediction model construction: genotype, covariates, and gene
+    expression data (same as in PrediXcan) + cell-type composition
     estimates (e.g. from existing methods, such as ESTIMATE, CIBERSORT,
     xCell).
 
-  - Association Analysis: Same as in PrediXcan (genotype, covariates and
-    phenotype data).
+-   Association Analysis: genotype, covariates and phenotype data (same
+    as in PrediXcan).
 
 **Output:**
 
-  - Prediction model construction: Cell-type-specific and nonspecific
-    prediction weights.
+-   Prediction model construction: Cell-type-specific or nonspecific
+    prediction weights for different genes.
 
-  - Association Analysis: Tissue-level association p-values and
+-   Association Analysis: Tissue-level association p-values and
     cell-type-level association summaries including estimates, standard
     error and p-values.
 
@@ -97,7 +97,8 @@ The typical install time of the package is less than 5 minutes.
 ## Example of use
 
 Below demonstrates the MiXcan analysis pipeline on a single peusdo gene.
-In reality, multiple genes can be analyzed in parallel.
+In reality, multiple genes can be analyzed in parallel. Holdout set can
+be pre-excluded to allow model training on the remaining samples.
 
 ### Data
 
@@ -109,9 +110,6 @@ data(example_data)
 ```
 
 ### MiXcan analysis pipeline
-
-Step 1 (optional): Improving the estimation of the cell-type composition
-Pi.
 
 ``` r
 library(doParallel)
@@ -127,51 +125,48 @@ library(doParallel)
 library(tidyverse)
 ```
 
-    ## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.0 ──
+    ## ── Attaching packages
+    ## ───────────────────────────────────────
+    ## tidyverse 1.3.2 ──
 
-    ## ✓ ggplot2 3.3.5     ✓ purrr   0.3.4
-    ## ✓ tibble  3.0.4     ✓ dplyr   1.0.7
-    ## ✓ tidyr   1.1.4     ✓ stringr 1.4.0
-    ## ✓ readr   1.4.0     ✓ forcats 0.5.0
-
+    ## ✔ ggplot2 3.3.6      ✔ purrr   0.3.5 
+    ## ✔ tibble  3.1.8      ✔ dplyr   1.0.10
+    ## ✔ tidyr   1.2.1      ✔ stringr 1.4.1 
+    ## ✔ readr   2.1.3      ✔ forcats 0.5.2 
     ## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-    ## x purrr::accumulate() masks foreach::accumulate()
-    ## x dplyr::filter()     masks stats::filter()
-    ## x dplyr::lag()        masks stats::lag()
-    ## x purrr::when()       masks foreach::when()
+    ## ✖ purrr::accumulate() masks foreach::accumulate()
+    ## ✖ dplyr::filter()     masks stats::filter()
+    ## ✖ dplyr::lag()        masks stats::lag()
+    ## ✖ purrr::when()       masks foreach::when()
 
 ``` r
-nCores=detectCores()-1; registerDoParallel(nCores) # use parallel computing but leave 1 core out. 
-# Note: 0<prior<1 that prior should not hit the boundaries. If xCell score is used, check zero.
+nCores=detectCores()-1; registerDoParallel(nCores) # use parallel computing for speed, but leave 1 core out for other activities. 
+```
+
+Step 1: Improving the estimation of the cell-type composition from
+prior. This step is optional, and can be ignored if input cell-type
+composition estimates is preferred.
+
+``` r
 pi_estimation_result <- pi_estimation(expression_matrix = GTEx_epithelial_genes,
               prior = GTEx_prior, 
               n_iteration = 5) 
-```
-
-    ## [1] "EM algorithm converged"
-    ## [1] 1
-    ## [1] "EM algorithm converged"
-    ## [1] 2
-    ## [1] "EM algorithm converged"
-    ## [1] 3
-    ## [1] "EM algorithm converged"
-    ## [1] 4
-    ## [1] "EM algorithm converged"
-    ## [1] 5
-
-``` r
 pi_estimation_result[1:3,]
 ```
 
-    ## # A tibble: 3 x 2
+    ## # A tibble: 3 × 2
     ##   sample     mean_trim_0.05
     ##   <chr>               <dbl>
     ## 1 sample_1            0.239
     ## 2 sample_10           0.226
     ## 3 sample_100          0.1
 
-Step 2: Estimating cell-type-specific (and nonspecific) prediction
-weights for the expression levels of a gene using the MiXcan function
+``` r
+# Note: 0<prior<1 that prior should not hit the boundaries. If xCell score is used, add a small perturbation for zero.
+```
+
+Step 2: Estimating cell-type-specific (and nonspecific) GReX prediction
+weights of a gene using the MiXcan function
 
 ``` r
 set.seed(111)
@@ -234,8 +229,7 @@ MiXcan_result$beta.SNP.cell2
     ## 18      SNP18  0.00000000
     ## 19      SNP19 -0.06553891
 
-Step 3: Extract the weights from the output of MiXcan
-function.
+Step 3: Extracting the weights from the MiXcan output.
 
 ``` r
 MiXcan_weight_result <- MiXcan_extract_weight(MiXcan_model = MiXcan_result)
@@ -253,9 +247,8 @@ MiXcan_weight_result
     ## 3      SNP10   -0.03021309   -0.03021309 NonSpecific
     ## 4      SNP19   -0.06553891   -0.06553891 NonSpecific
 
-Step 4: Predict the cell-type-specific or nonspecific expression levels
-of a gene with MiXcan model in new genetic
-data.
+Step 4: Predicting the cell-type-specific or nonspecific expression
+levels of the gene in a new genetic data.
 
 ``` r
 MiXcan_prediction_result <- MiXcan_prediction(weight = MiXcan_weight_result, new_x = new_X_example)
@@ -274,12 +267,17 @@ MiXcan_prediction_result
     ## id9  -0.07770039 -0.07770039
     ## id10 -0.02406689 -0.02406689
 
-Step 5: Association analysis with MiXcan predicted gene expression
-levels
+Step 5: Association analysis with MiXcan predicted GReX levels
 
 ``` r
 MiXcan_association_result <- MiXcan_association(MiXcan_predicted_expr = MiXcan_prediction_result,
                                                 covariates = covariates_example, outcome = outcome_example, family  = "binomial")
+```
+
+    ## Warning in data.frame(..., check.names = FALSE): row names were found from a
+    ## short variable and have been discarded
+
+``` r
 MiXcan_association_result
 ```
 
@@ -288,17 +286,21 @@ MiXcan_association_result
     ##    cell_2_p p_combined
     ## 1 0.9343073  0.9343073
 
-## Pretrained models in mammary tissues
+## Pretrained models:
 
-Data for training the cell-type-specific (and nonspecific) prediction
-models are protected and can be accessed via dbGap. Pre-trained
-prediction models (Step 1-3) using the mammary tissues from 125 Eurpean
-Ancestry (EA) can be accessed
-by
+Pretrained models are provided here for epithelial vs. stromal cell
+types in mammary tissues. A total of 125 European ancestry women in GTEx
+was used for model trainig. Training data can be accessed from dbGap
+(Study Accession: phs000424.v9.p2).
+
+Note: As a proof of concept, a subset of SNPs reported in the mammary
+tissues in predictdb (<https://predictdb.org>) were used as the SNP pool
+for model training.
 
 ``` r
 weights=read.table("data/MiXcan_model_weights_trained_in_GTEx_v8_mammary.tsv", header=T)
 ```
 
 Users of the pre-trained models can apply the weights to new genotype
-data as in Step 4-5 for cell-type-specific association analyses.
+data as in Step 4-5 for cell-type-aware transcriptome-wide association
+studies.
