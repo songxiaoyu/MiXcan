@@ -293,7 +293,7 @@ types in mammary tissues. A total of 125 European ancestry women in GTEx
 was used for model trainig. Training data can be accessed from dbGap
 (Study Accession: phs000424.v9.p2).
 
-Note: As a proof of concept, a subset of SNPs reported in the mammary
+Note: As the proof of concept, a subset of SNPs reported in the mammary
 tissues in predictdb (<https://predictdb.org>) were used as the SNP pool
 for model training.
 
