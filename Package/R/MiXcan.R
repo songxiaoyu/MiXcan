@@ -1,6 +1,7 @@
+#' Estimate the cell-type level prediction weights of a gene.
+#'
 #' The core function of MiXcan package for estimating the
 #' cell-type level prediction weights of a gene.
-#'
 #' @param y: The pre-cleaned expression level data for a single gene in N samples.
 #' @param x: A N by P matrix for all the genetic predictors used to predict the genetically regulated expression  of the gene.
 #' @param cov: A N by Q matrix for the covariates adjusted in the model (e.g. age, population stratification).
@@ -12,6 +13,7 @@
 #' @param foldid: Default is NULL. 10-fold cross-validation (CV) is used in our pipeline. A random split
 #' is considered if foldid is NULL. Otherwise foldid is used to split the data for CV.
 #' @return list with 9 elements. It contains
+#'
 #' \item{type:}{Whether the prediction model is "CellTypeSpecific" or "NonSpecific".}
 #' \item{beta.SNP.cell1:}{The prediction weights of the genetic predictors in cell type 1 (the cell type of interest).}
 #' \item{beta.SNP.cell2:}{The prediction weights of the genetic predictors in cell type 2 (other cell types).}

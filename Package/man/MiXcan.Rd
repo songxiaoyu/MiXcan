@@ -2,8 +2,7 @@
 % Please edit documentation in R/MiXcan.R
 \name{MiXcan}
 \alias{MiXcan}
-\title{The core function of MiXcan package for estimating the
-cell-type level prediction weights of a gene.}
+\title{Estimate the cell-type level prediction weights of a gene.}
 \usage{
 MiXcan(y, x, cov = NULL, pi, nameMatrix = NULL, foldid = NULL)
 }
@@ -26,6 +25,7 @@ is considered if foldid is NULL. Otherwise foldid is used to split the data for 
 }
 \value{
 list with 9 elements. It contains
+
 \item{type:}{Whether the prediction model is "CellTypeSpecific" or "NonSpecific".}
 \item{beta.SNP.cell1:}{The prediction weights of the genetic predictors in cell type 1 (the cell type of interest).}
 \item{beta.SNP.cell2:}{The prediction weights of the genetic predictors in cell type 2 (other cell types).}
