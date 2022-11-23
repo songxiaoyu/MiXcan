@@ -2,7 +2,7 @@
 % Please edit documentation in R/MiXcan_association.R
 \name{MiXcan_association}
 \alias{MiXcan_association}
-\title{Association analysis with MiXcan predicted gene expression levels}
+\title{Association analysis with MiXcan predicted genetically regulated expression}
 \usage{
 MiXcan_association(MiXcan_predicted_expr, covariates, outcome, family)
 }
@@ -18,8 +18,12 @@ and count variables, and modeled through generalized linear models (GLM).}
 \item{family:}{Same as the family object used in GLM.}
 }
 \value{
-A tibble showing the estimate, standard error, p value for cell 1 and 2 and the combined p value using the Cauchy combination.
+A tibble showing the estimate, standard error, p value for cell 1 and 2
+and the combined p-value using the Cauchy combination.
 }
 \description{
-Association analysis with MiXcan predicted gene expression levels
+The input MiXcan predicted genetically regulated expression levels are at cell-type
+level. Association analysis returns p-value at tissue level for inference purpose, and
+at cell-type level for post-inference (ad hoc) explaination of the likely source of
+association.
 }

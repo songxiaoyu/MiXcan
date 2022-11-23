@@ -2,19 +2,21 @@
 % Please edit documentation in R/MiXcan.R
 \name{MiXcan}
 \alias{MiXcan}
-\title{The core function of MiXcan package for estimating the cell-type specific and non-specific prediction weights of a gene.}
+\title{The core function of MiXcan package for estimating the
+cell-type level prediction weights of a gene.}
 \usage{
 MiXcan(y, x, cov = NULL, pi, nameMatrix = NULL, foldid = NULL)
 }
 \arguments{
 \item{y:}{The pre-cleaned expression level data for a single gene in N samples.}
 
-\item{x:}{A N by P matrix for all the genetic predictors used to predict the expression level of the gene.}
+\item{x:}{A N by P matrix for all the genetic predictors used to predict the genetically regulated expression  of the gene.}
 
 \item{cov:}{A N by Q matrix for the covariates adjusted in the model (e.g. age, population stratification).}
 
-\item{pi:}{An estimation of cell-type faction of the cell type of interest (e.g. epithelial). It can be estimated using existing methods
-in the literature of from the output of pi_estimation function.}
+\item{pi:}{An estimation of cell-type faction of the cell type of interest (e.g.
+epithelial). It can be estimated using existing methods
+in the literature or from the output of pi_estimation function.}
 
 \item{nameMatrix:}{Default is NULL. A matrix to save the information of variables from
 the X matrix, such as variable ID, position, rsid, ref_allele, eff_allele.}
@@ -24,19 +26,18 @@ is considered if foldid is NULL. Otherwise foldid is used to split the data for 
 }
 \value{
 list with 9 elements. It contains
-\item{type:}{Whether the prediction model is "CellSpecific" or "NonSpecific.}
+\item{type:}{Whether the prediction model is "CellTypeSpecific" or "NonSpecific".}
 \item{beta.SNP.cell1:}{The prediction weights of the genetic predictors in cell type 1 (the cell type of interest).}
 \item{beta.SNP.cell2:}{The prediction weights of the genetic predictors in cell type 2 (other cell types).}
 \item{beta.all.models:}{All regression coefficients are saved in beta.all.models, including intercepts,
 coefficients of genetic and non-genetic predictors in cell-type specific and non-specific models.}
-\item{glmnet.cell:}{The cell-type specific prediction model selected using elastic net. This model may not be the final model of MiXcan
- as elastic net selected parameters may be insignificant. }
-\item{glmnet.tissue:}{The prediction model without considering cell type composition (same as PrediXcan).}
+\item{glmnet.cell:}{The cell-type-level prediction model selected using elastic-net.
+This model may not be the final model as elastic-net selected parameters in the two
+cell types may not be robustly different.  }
+\item{glmnet.tissue:}{The tissue-level prediction model, which does not consider
+cell type composition (same as PrediXcan).}
 }
 \description{
-The core function of MiXcan package for estimating the cell-type specific and non-specific prediction weights of a gene.
-}
-\examples{
-
-
+The core function of MiXcan package for estimating the
+cell-type level prediction weights of a gene.
 }

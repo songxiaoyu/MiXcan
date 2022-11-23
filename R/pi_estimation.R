@@ -3,13 +3,12 @@
 #' @param expression_matrix: G by N gene expression matrix for estimating cell type composition of the tissue.
 #' Each row is a gene and each column is tissue sample. Gene name and sample ID can be included as row and column names,
 #' but not in the expression matrix.
-#' @param n_iteration: Number of bootstrap samples to estimate the Pi.
+#' @param n_iteration: Number of bootstrap samples to estimate the pi.
 #' @param prior: Prior estimation of cell-type composition.
 #'
-#' @return Updated cell-type composition estimates.
-#' @export A ribble of 2 columns: The first columns shows the sample id, the second column shows the robust cell-type composition estimation
+#' @return Updated cell-type composition estimates. A ribble of 2 columns: The first columns shows the sample id, the second column shows the robust cell-type composition estimation
+#' @export
 #'
-#' @examples
 #'
 
 pi_estimation <- function(expression_matrix, n_iteration, prior){

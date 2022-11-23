@@ -1,5 +1,9 @@
-#' Association analysis with MiXcan predicted gene expression levels
+#' Association analysis with MiXcan predicted genetically regulated expression
 #'
+#' The input MiXcan predicted genetically regulated expression levels are at cell-type
+#' level. Association analysis returns p-value at tissue level for inference purpose, and
+#' at cell-type level for post-inference (ad hoc) explaination of the likely source of
+#' association.
 #' @param MiXcan_predicted_expr: A N by 2 matrix indicating the predicted gene expression levels in two
 #' cell types. If a non-specific model is used for prediction, the predicted values should be the same in two cell types.
 #' @param covariates: A N by P matrix for the covariates in association analysis.
@@ -7,10 +11,10 @@
 #' and count variables, and modeled through generalized linear models (GLM).
 #' @param family: Same as the family object used in GLM.
 #'
-#' @return A tibble showing the estimate, standard error, p value for cell 1 and 2 and the combined p value using the Cauchy combination. 
+#' @return A tibble showing the estimate, standard error, p value for cell 1 and 2
+#' and the combined p-value using the Cauchy combination.
 #' @export
 #'
-#' @examples
 MiXcan_association <- function(MiXcan_predicted_expr, covariates, outcome, family){
   MiXcan_association_dataframe <- cbind(MiXcan_prediction_result, covariates,  y = outcome)
   MiXcan_association_dataframe_glm <- glm(as.formula(paste0("y ~.")), data = MiXcan_association_dataframe, family = family)

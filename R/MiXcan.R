@@ -1,27 +1,30 @@
-#' The core function of MiXcan package for estimating the cell-type specific and non-specific prediction weights of a gene.
+#' The core function of MiXcan package for estimating the
+#' cell-type level prediction weights of a gene.
 #'
 #' @param y: The pre-cleaned expression level data for a single gene in N samples.
-#' @param x: A N by P matrix for all the genetic predictors used to predict the expression level of the gene.
+#' @param x: A N by P matrix for all the genetic predictors used to predict the genetically regulated expression  of the gene.
 #' @param cov: A N by Q matrix for the covariates adjusted in the model (e.g. age, population stratification).
-#' @param pi: An estimation of cell-type faction of the cell type of interest (e.g. epithelial). It can be estimated using existing methods
-#' in the literature of from the output of pi_estimation function.
+#' @param pi: An estimation of cell-type faction of the cell type of interest (e.g.
+#' epithelial). It can be estimated using existing methods
+#' in the literature or from the output of pi_estimation function.
 #' @param nameMatrix: Default is NULL. A matrix to save the information of variables from
 #' the X matrix, such as variable ID, position, rsid, ref_allele, eff_allele.
 #' @param foldid: Default is NULL. 10-fold cross-validation (CV) is used in our pipeline. A random split
 #' is considered if foldid is NULL. Otherwise foldid is used to split the data for CV.
 #' @return list with 9 elements. It contains
-#' \item{type:}{Whether the prediction model is "CellSpecific" or "NonSpecific.}
+#' \item{type:}{Whether the prediction model is "CellTypeSpecific" or "NonSpecific".}
 #' \item{beta.SNP.cell1:}{The prediction weights of the genetic predictors in cell type 1 (the cell type of interest).}
 #' \item{beta.SNP.cell2:}{The prediction weights of the genetic predictors in cell type 2 (other cell types).}
 #' \item{beta.all.models:}{All regression coefficients are saved in beta.all.models, including intercepts,
 #' coefficients of genetic and non-genetic predictors in cell-type specific and non-specific models.}
 
-#' \item{glmnet.cell:}{The cell-type specific prediction model selected using elastic net. This model may not be the final model of MiXcan
-#'  as elastic net selected parameters may be insignificant. }
-#' \item{glmnet.tissue:}{The prediction model without considering cell type composition (same as PrediXcan).}
+#' \item{glmnet.cell:}{The cell-type-level prediction model selected using elastic-net.
+#' This model may not be the final model as elastic-net selected parameters in the two
+#' cell types may not be robustly different.  }
+#' \item{glmnet.tissue:}{The tissue-level prediction model, which does not consider
+#' cell type composition (same as PrediXcan).}
 #' @export
 #'
-#' @examples
 #'
 #'
 MiXcan=function(y, x, cov=NULL, pi, nameMatrix=NULL,
@@ -88,7 +91,7 @@ MiXcan=function(y, x, cov=NULL, pi, nameMatrix=NULL,
       any.nonzero= any(apply(beta.diff.range, 2, function(f) f[1] * f[2]>0), na.rm=T)
     }
 
-    if (is.na(any.nonzero)==F & any.nonzero==T) {Type ="CellSpecific"}
+    if (is.na(any.nonzero)==F & any.nonzero==T) {Type ="CellTypeSpecific"}
   }
   print(Type)
 
