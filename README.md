@@ -89,7 +89,7 @@ With R, users can install the MiXcan package directly from GitHub with
 
 ``` r
 install.packages("devtools")
-devtools::install_github("songxiaoyu/MiXcan")
+devtools::install_github("songxiaoyu/MiXcan/Package")
 ```
 
 The typical install time of the package is less than 5 minutes.
@@ -129,7 +129,7 @@ library(tidyverse)
     ## ───────────────────────────────────────
     ## tidyverse 1.3.2 ──
 
-    ## ✔ ggplot2 3.3.6      ✔ purrr   0.3.5 
+    ## ✔ ggplot2 3.4.0      ✔ purrr   0.3.5 
     ## ✔ tibble  3.1.8      ✔ dplyr   1.0.10
     ## ✔ tidyr   1.2.1      ✔ stringr 1.4.1 
     ## ✔ readr   2.1.3      ✔ forcats 0.5.2 
@@ -297,9 +297,8 @@ Note: As the proof of concept, a subset of SNPs reported in the mammary
 tissues in predictdb (<https://predictdb.org>) were used as the SNP pool
 for model training.
 
-``` r
-weights=read.table("data/MiXcan_model_weights_trained_in_GTEx_v8_mammary.tsv", header=T)
-```
+File Path:
+“PreTrainedModel/MiXcan_model_weights_trained_in_GTEx_v8_mammary.tsv”
 
 Users of the pre-trained models can apply the weights to new genotype
 data as in Step 4-5 for cell-type-aware transcriptome-wide association

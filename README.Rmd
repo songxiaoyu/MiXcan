@@ -76,7 +76,7 @@ With R, users can install the MiXcan package directly from GitHub with [devtools
 
 ```R
 install.packages("devtools")
-devtools::install_github("songxiaoyu/MiXcan")
+devtools::install_github("songxiaoyu/MiXcan/Package")
 
 ````
 The typical install time of the package is less than 5 minutes. 
@@ -149,9 +149,7 @@ Pretrained models are provided here for epithelial vs. stromal cell types in mam
 
 Note: As the proof of concept, a subset of SNPs reported in the mammary tissues in predictdb (https://predictdb.org) were used as the SNP pool for model training. 
 
-```{r}
-weights=read.table("data/MiXcan_model_weights_trained_in_GTEx_v8_mammary.tsv", header=T)
-```
+File Path: "PreTrainedModel/MiXcan_model_weights_trained_in_GTEx_v8_mammary.tsv"
 
 Users of the pre-trained models can apply the weights to new genotype data as in Step 4-5 for cell-type-aware transcriptome-wide association studies. 
 
