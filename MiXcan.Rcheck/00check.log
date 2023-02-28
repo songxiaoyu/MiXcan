@@ -122,42 +122,22 @@ Undocumented data sets:
 All user-level objects in a package should have documentation entries.
 See chapter ‘Writing R documentation files’ in the ‘Writing R
 Extensions’ manual.
-* checking for code/documentation mismatches ... WARNING
-Codoc mismatches from documentation object 'MiXcan':
-MiXcan
-  Code: function(y, x, cov = NULL, pi, xNameMatrix = NULL, yName =
-                 NULL, foldid = NULL)
-  Docs: function(y, x, cov = NULL, pi, nameMatrix = NULL, foldid =
-                 NULL)
-  Argument names in code not in docs:
-    xNameMatrix yName
-  Argument names in docs not in code:
-    nameMatrix
-  Mismatches in argument names:
-    Position: 5 Code: xNameMatrix Docs: nameMatrix
-    Position: 6 Code: yName Docs: foldid
-
-Codoc mismatches from documentation object 'MiXcan_extract_weight':
-MiXcan_extract_weight
-  Code: function(model, keepZeroWeight = F)
-  Docs: function(MiXcan_model)
-  Argument names in code not in docs:
-    model keepZeroWeight
-  Argument names in docs not in code:
-    MiXcan_model
-  Mismatches in argument names:
-    Position: 1 Code: model Docs: MiXcan_model
-
+* checking for code/documentation mismatches ... OK
 * checking Rd \usage sections ... WARNING
 Undocumented arguments in documentation object 'MiXcan'
-  ‘y’ ‘x’ ‘cov’ ‘pi’ ‘nameMatrix’ ‘foldid’
+  ‘y’ ‘x’ ‘cov’ ‘pi’ ‘xNameMatrix’ ‘yName’ ‘foldid’
 Documented arguments not in \usage in documentation object 'MiXcan':
-  ‘y:’ ‘x:’ ‘cov:’ ‘pi:’ ‘nameMatrix:’ ‘foldid:’
+  ‘y:’ ‘x:’ ‘cov:’ ‘pi:’ ‘xNameMatrix:’ ‘yName:’ ‘foldid:’
 
 Undocumented arguments in documentation object 'MiXcan_association'
   ‘MiXcan_predicted_expr’ ‘covariates’ ‘outcome’ ‘family’
 Documented arguments not in \usage in documentation object 'MiXcan_association':
   ‘MiXcan_predicted_expr:’ ‘covariates:’ ‘outcome:’ ‘family:’
+
+Undocumented arguments in documentation object 'MiXcan_extract_summary'
+  ‘x’ ‘y’ ‘pi’ ‘foldid’ ‘model’
+Documented arguments not in \usage in documentation object 'MiXcan_extract_summary':
+  ‘MiXcan_model’
 
 Undocumented arguments in documentation object 'pi_estimation'
   ‘expression_matrix’ ‘n_iteration’ ‘prior’
@@ -179,4 +159,4 @@ Extensions’ manual.
 * checking for non-standard things in the check directory ... OK
 * checking for detritus in the temp directory ... OK
 * DONE
-Status: 5 WARNINGs, 1 NOTE
+Status: 4 WARNINGs, 1 NOTE

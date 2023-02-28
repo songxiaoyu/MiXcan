@@ -4,7 +4,7 @@
 \alias{MiXcan}
 \title{Estimate the cell-type level prediction weights of a gene.}
 \usage{
-MiXcan(y, x, cov = NULL, pi, nameMatrix = NULL, foldid = NULL)
+MiXcan(y, x, cov = NULL, pi, xNameMatrix = NULL, yName = NULL, foldid = NULL)
 }
 \arguments{
 \item{y:}{The pre-cleaned expression level data for a single gene in N samples.}
@@ -17,8 +17,10 @@ MiXcan(y, x, cov = NULL, pi, nameMatrix = NULL, foldid = NULL)
 epithelial). It can be estimated using existing methods
 in the literature or from the output of pi_estimation function.}
 
-\item{nameMatrix:}{Default is NULL. A matrix to save the information of variables from
-the X matrix, such as variable ID, position, rsid, ref_allele, eff_allele.}
+\item{xNameMatrix:}{Default is NULL. A matrix to save theX matrix information,
+such as variable ID, position, rsid, ref_allele, eff_allele.}
+
+\item{yName:}{Default is NULL. A row vector to save the expression information, such as gene ID, gene name.}
 
 \item{foldid:}{Default is NULL. 10-fold cross-validation (CV) is used in our pipeline. A random split
 is considered if foldid is NULL. Otherwise foldid is used to split the data for CV.}

@@ -2,6 +2,7 @@
 
 export(MiXcan)
 export(MiXcan_association)
+export(MiXcan_extract_summary)
 export(MiXcan_extract_weight)
 export(MiXcan_prediction)
 export(deNet_purity)

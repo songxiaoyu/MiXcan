@@ -2,20 +2,23 @@
 % Please edit documentation in R/MiXcan_extract_weight.R
 \name{MiXcan_extract_weight}
 \alias{MiXcan_extract_weight}
-\title{Extract the prediction weights}
+\title{Extract the gene expression prediction weights matrix
+Extract the gene expression prediction weights matrix (elastic net regression coefficients) from MiXcan() function.
+The output can be directly applied to GWAS data for cell-type specific TWAS.}
 \usage{
-MiXcan_extract_weight(MiXcan_model)
+MiXcan_extract_weight(model, keepZeroWeight = F)
 }
 \arguments{
-\item{MiXcan_model}{A direct output from `MiXcan` function, which includes the
+\item{model}{A direct output from MiXcan() function, which includes the
 prediction weights as well as other summaries of the prediction models.}
+
+\item{keepZeroWeight}{Default=F. Whether to keep SNPs that have zero weights in all cell types.}
 }
 \value{
-A data frame with weights for cell 1 and 2, including the potential
-meta data for the SNP
+A data frame with weight for cell 1 and 2, including the potential meta data for the SNP
 }
 \description{
-Extract a matrix for prediction weights (elastic-net regression coefficients)
-for the genetically regulated expression from `MiXcan` function.
-The output can be directly applied to GWAS data for cell-type-aware TWAS.
+Extract the gene expression prediction weights matrix
+Extract the gene expression prediction weights matrix (elastic net regression coefficients) from MiXcan() function.
+The output can be directly applied to GWAS data for cell-type specific TWAS.
 }
