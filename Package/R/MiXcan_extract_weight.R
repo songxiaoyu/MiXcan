@@ -1,6 +1,6 @@
 #' Extract the gene expression prediction weights matrix
-
-#' Ext#' ract the gene expression prediction weights matrix (elastic net regression coefficients) from MiXcan() function.
+#' 
+#' Extract the gene expression prediction weights matrix (elastic net regression coefficients) from MiXcan() function.
 #' The output can be directly applied to GWAS data for cell-type specific TWAS.
 #'
 #' @param model A direct output from MiXcan() function, which includes the
