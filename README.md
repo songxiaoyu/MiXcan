@@ -125,19 +125,19 @@ library(doParallel)
 library(tidyverse)
 ```
 
-    ## ── Attaching packages
-    ## ───────────────────────────────────────
-    ## tidyverse 1.3.2 ──
+    ## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+    ## ✔ dplyr     1.1.0     ✔ readr     2.1.4
+    ## ✔ forcats   1.0.0     ✔ stringr   1.5.0
+    ## ✔ ggplot2   3.4.1     ✔ tibble    3.1.8
+    ## ✔ lubridate 1.9.2     ✔ tidyr     1.3.0
+    ## ✔ purrr     1.0.1
 
-    ## ✔ ggplot2 3.4.0      ✔ purrr   0.3.5 
-    ## ✔ tibble  3.1.8      ✔ dplyr   1.0.10
-    ## ✔ tidyr   1.2.1      ✔ stringr 1.4.1 
-    ## ✔ readr   2.1.3      ✔ forcats 0.5.2 
     ## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
     ## ✖ purrr::accumulate() masks foreach::accumulate()
     ## ✖ dplyr::filter()     masks stats::filter()
     ## ✖ dplyr::lag()        masks stats::lag()
     ## ✖ purrr::when()       masks foreach::when()
+    ## ℹ Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
 
 ``` r
 nCores=detectCores()-1; registerDoParallel(nCores) # use parallel computing for speed, but leave 1 core out for other activities. 
@@ -183,69 +183,86 @@ MiXcan_result <- MiXcan(y=y_example, x=x_example, cov = cov_example, pi= pi_esti
 MiXcan_result$beta.SNP.cell1
 ```
 
-    ##    nameMatrix      weight
-    ## 1        SNP1  0.00000000
-    ## 2        SNP2  0.00000000
-    ## 3        SNP3  0.00614620
-    ## 4        SNP4  0.04108504
-    ## 5        SNP5  0.00000000
-    ## 6        SNP6  0.00000000
-    ## 7        SNP7  0.00000000
-    ## 8        SNP8  0.00000000
-    ## 9        SNP9  0.00000000
-    ## 10      SNP10 -0.03021309
-    ## 11      SNP11  0.00000000
-    ## 12      SNP12  0.00000000
-    ## 13      SNP13  0.00000000
-    ## 14      SNP14  0.00000000
-    ## 15      SNP15  0.00000000
-    ## 16      SNP16  0.00000000
-    ## 17      SNP17  0.00000000
-    ## 18      SNP18  0.00000000
-    ## 19      SNP19 -0.06553891
+    ##    xNameMatrix      weight
+    ## 1         SNP1  0.00000000
+    ## 2         SNP2  0.00000000
+    ## 3         SNP3  0.00614620
+    ## 4         SNP4  0.04108504
+    ## 5         SNP5  0.00000000
+    ## 6         SNP6  0.00000000
+    ## 7         SNP7  0.00000000
+    ## 8         SNP8  0.00000000
+    ## 9         SNP9  0.00000000
+    ## 10       SNP10 -0.03021309
+    ## 11       SNP11  0.00000000
+    ## 12       SNP12  0.00000000
+    ## 13       SNP13  0.00000000
+    ## 14       SNP14  0.00000000
+    ## 15       SNP15  0.00000000
+    ## 16       SNP16  0.00000000
+    ## 17       SNP17  0.00000000
+    ## 18       SNP18  0.00000000
+    ## 19       SNP19 -0.06553891
 
 ``` r
 MiXcan_result$beta.SNP.cell2
 ```
 
-    ##    nameMatrix      weight
-    ## 1        SNP1  0.00000000
-    ## 2        SNP2  0.00000000
-    ## 3        SNP3  0.00614620
-    ## 4        SNP4  0.04108504
-    ## 5        SNP5  0.00000000
-    ## 6        SNP6  0.00000000
-    ## 7        SNP7  0.00000000
-    ## 8        SNP8  0.00000000
-    ## 9        SNP9  0.00000000
-    ## 10      SNP10 -0.03021309
-    ## 11      SNP11  0.00000000
-    ## 12      SNP12  0.00000000
-    ## 13      SNP13  0.00000000
-    ## 14      SNP14  0.00000000
-    ## 15      SNP15  0.00000000
-    ## 16      SNP16  0.00000000
-    ## 17      SNP17  0.00000000
-    ## 18      SNP18  0.00000000
-    ## 19      SNP19 -0.06553891
+    ##    xNameMatrix      weight
+    ## 1         SNP1  0.00000000
+    ## 2         SNP2  0.00000000
+    ## 3         SNP3  0.00614620
+    ## 4         SNP4  0.04108504
+    ## 5         SNP5  0.00000000
+    ## 6         SNP6  0.00000000
+    ## 7         SNP7  0.00000000
+    ## 8         SNP8  0.00000000
+    ## 9         SNP9  0.00000000
+    ## 10       SNP10 -0.03021309
+    ## 11       SNP11  0.00000000
+    ## 12       SNP12  0.00000000
+    ## 13       SNP13  0.00000000
+    ## 14       SNP14  0.00000000
+    ## 15       SNP15  0.00000000
+    ## 16       SNP16  0.00000000
+    ## 17       SNP17  0.00000000
+    ## 18       SNP18  0.00000000
+    ## 19       SNP19 -0.06553891
 
-Step 3: Extracting the weights from the MiXcan output.
+Step 3: Extracting the weights and model summaries from the MiXcan
+output.
 
 ``` r
-MiXcan_weight_result <- MiXcan_extract_weight(MiXcan_model = MiXcan_result)
+MiXcan_weight_result <- MiXcan_extract_weight(model = MiXcan_result)
 ```
 
-    ## Joining, by = "nameMatrix"
+    ## Joining with `by = join_by(xNameMatrix)`
 
 ``` r
 MiXcan_weight_result
 ```
 
-    ##   nameMatrix weight_cell_1 weight_cell_2        type
-    ## 1       SNP3    0.00614620    0.00614620 NonSpecific
-    ## 2       SNP4    0.04108504    0.04108504 NonSpecific
-    ## 3      SNP10   -0.03021309   -0.03021309 NonSpecific
-    ## 4      SNP19   -0.06553891   -0.06553891 NonSpecific
+    ##   xNameMatrix weight_cell_1 weight_cell_2        type
+    ## 1        SNP3    0.00614620    0.00614620 NonSpecific
+    ## 2        SNP4    0.04108504    0.04108504 NonSpecific
+    ## 3       SNP10   -0.03021309   -0.03021309 NonSpecific
+    ## 4       SNP19   -0.06553891   -0.06553891 NonSpecific
+
+``` r
+MiXcan_summary_result <- MiXcan_extract_summary(x=x_example, y=y_example, pi=pi_estimation_result$mean_trim_0.05, foldid=foldid, model=MiXcan_result)
+```
+
+    ## Joining with `by = join_by(xNameMatrix)`
+    ## Joining with `by = join_by(xNameMatrix)`
+
+``` r
+MiXcan_summary_result
+```
+
+    ##     n_snp_input n_snp_model model_type    in_sample_r2        
+    ## cor "19"        "4"         "NonSpecific" "0.0935647635902331"
+    ##     in_sample_cor_pvalue  
+    ## cor "0.000522283468456319"
 
 Step 4: Predicting the cell-type-specific or nonspecific expression
 levels of the gene in a new genetic data.
