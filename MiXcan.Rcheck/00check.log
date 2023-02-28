@@ -1,0 +1,182 @@
+* using log directory ‘/Users/songxiaoyu152/Library/CloudStorage/OneDrive-TheMountSinaiHospital/CPTAC_Song/Paper_PrediXcan/Github/MiXcan.Rcheck’
+* using R version 4.1.2 (2021-11-01)
+* using platform: x86_64-apple-darwin17.0 (64-bit)
+* using session charset: UTF-8
+* using options ‘--no-manual --as-cran’
+* checking for file ‘MiXcan/DESCRIPTION’ ... OK
+* checking extension type ... Package
+* this is package ‘MiXcan’ version ‘0.1.0’
+* package encoding: UTF-8
+* checking package namespace information ... OK
+* checking package dependencies ... OK
+* checking if this is a source package ... OK
+* checking if there is a namespace ... OK
+* checking for executable files ... OK
+* checking for hidden files and directories ... OK
+* checking for portable file names ... OK
+* checking for sufficient/correct file permissions ... OK
+* checking whether package ‘MiXcan’ can be installed ... OK
+* checking installed package size ... OK
+* checking package directory ... OK
+* checking for future file timestamps ... OK
+* checking DESCRIPTION meta-information ... WARNING
+Invalid license file pointers: LICENSE
+* checking top-level files ... OK
+* checking for left-over files ... OK
+* checking index information ... OK
+* checking package subdirectories ... OK
+* checking R files for non-ASCII characters ... OK
+* checking R files for syntax errors ... OK
+* checking whether the package can be loaded ... OK
+* checking whether the package can be loaded with stated dependencies ... OK
+* checking whether the package can be unloaded cleanly ... OK
+* checking whether the namespace can be loaded with stated dependencies ... OK
+* checking whether the namespace can be unloaded cleanly ... OK
+* checking dependencies in R code ... WARNING
+'::' or ':::' import not declared from: ‘ACAT’
+* checking S3 generic/method consistency ... OK
+* checking replacement functions ... OK
+* checking foreign function calls ... OK
+* checking R code for possible problems ... NOTE
+MiXcan: no visible global function definition for ‘lm’
+MiXcan: no visible global function definition for ‘coef’
+MiXcan : <anonymous>: no visible global function definition for
+  ‘quantile’
+MiXcan_association: no visible binding for global variable
+  ‘MiXcan_prediction_result’
+MiXcan_association: no visible global function definition for ‘glm’
+MiXcan_association: no visible global function definition for
+  ‘as.formula’
+MiXcan_association: no visible global function definition for ‘%>%’
+MiXcan_association: no visible global function definition for ‘filter’
+MiXcan_association: no visible binding for global variable ‘term’
+MiXcan_association: no visible global function definition for ‘cor’
+MiXcan_association: no visible global function definition for ‘mutate’
+MiXcan_association: no visible binding for global variable ‘estimate’
+MiXcan_association: no visible binding for global variable ‘std.error’
+MiXcan_association: no visible binding for global variable ‘p.value’
+MiXcan_association: no visible global function definition for
+  ‘bind_cols’
+MiXcan_extract_summary: no visible global function definition for
+  ‘cor.test’
+MiXcan_extract_weight: no visible global function definition for ‘%>%’
+MiXcan_extract_weight: no visible global function definition for
+  ‘rename’
+MiXcan_extract_weight: no visible binding for global variable ‘weight’
+MiXcan_extract_weight: no visible global function definition for
+  ‘inner_join’
+MiXcan_extract_weight: no visible global function definition for
+  ‘mutate’
+MiXcan_extract_weight: no visible global function definition for
+  ‘add_column’
+MiXcan_extract_weight: no visible global function definition for
+  ‘filter’
+MiXcan_extract_weight: no visible binding for global variable
+  ‘weight_cell_1’
+calculateLL.1d : <anonymous>: no visible global function definition for
+  ‘dnorm’
+deNet_purity: no visible binding for global variable ‘sd’
+deNet_purity: no visible global function definition for ‘var’
+deNet_purity: no visible global function definition for ‘%dopar%’
+deNet_purity: no visible global function definition for ‘foreach’
+deNet_purity : <anonymous> : f: no visible global function definition
+  for ‘dnorm’
+deNet_purity : <anonymous>: no visible global function definition for
+  ‘optim’
+deNet_purity : <anonymous> : f: no visible global function definition
+  for ‘dbeta’
+deNet_purity : f: no visible global function definition for ‘dbeta’
+deNet_purity: no visible global function definition for ‘optim’
+pi_estimation: no visible global function definition for ‘%dopar%’
+pi_estimation: no visible global function definition for ‘foreach’
+pi_estimation: no visible global function definition for ‘tibble’
+pi_estimation: no visible binding for global variable ‘i’
+pi_estimation: no visible global function definition for ‘%>%’
+pi_estimation: no visible global function definition for ‘group_by’
+pi_estimation: no visible global function definition for ‘summarise’
+pi_estimation: no visible binding for global variable ‘prop’
+pi_estimation: no visible binding for global variable ‘ungroup’
+Undefined global functions or variables:
+  %>% %dopar% MiXcan_prediction_result add_column as.formula bind_cols
+  coef cor cor.test dbeta dnorm estimate filter foreach glm group_by i
+  inner_join lm mutate optim p.value prop quantile rename sd std.error
+  summarise term tibble ungroup var weight weight_cell_1
+Consider adding
+  importFrom("stats", "as.formula", "coef", "cor", "cor.test", "dbeta",
+             "dnorm", "filter", "glm", "lm", "optim", "quantile", "sd",
+             "var")
+to your NAMESPACE file.
+* checking Rd files ... OK
+* checking Rd metadata ... OK
+* checking Rd line widths ... OK
+* checking Rd cross-references ... OK
+* checking for missing documentation entries ... WARNING
+Undocumented code objects:
+  ‘GTEx_epithelial_genes’ ‘GTEx_prior’ ‘cov_example’
+  ‘covariates_example’ ‘deNet_purity’ ‘new_X_example’ ‘outcome_example’
+  ‘x_example’ ‘y_example’
+Undocumented data sets:
+  ‘GTEx_epithelial_genes’ ‘GTEx_prior’ ‘cov_example’
+  ‘covariates_example’ ‘new_X_example’ ‘outcome_example’ ‘x_example’
+  ‘y_example’
+All user-level objects in a package should have documentation entries.
+See chapter ‘Writing R documentation files’ in the ‘Writing R
+Extensions’ manual.
+* checking for code/documentation mismatches ... WARNING
+Codoc mismatches from documentation object 'MiXcan':
+MiXcan
+  Code: function(y, x, cov = NULL, pi, xNameMatrix = NULL, yName =
+                 NULL, foldid = NULL)
+  Docs: function(y, x, cov = NULL, pi, nameMatrix = NULL, foldid =
+                 NULL)
+  Argument names in code not in docs:
+    xNameMatrix yName
+  Argument names in docs not in code:
+    nameMatrix
+  Mismatches in argument names:
+    Position: 5 Code: xNameMatrix Docs: nameMatrix
+    Position: 6 Code: yName Docs: foldid
+
+Codoc mismatches from documentation object 'MiXcan_extract_weight':
+MiXcan_extract_weight
+  Code: function(model, keepZeroWeight = F)
+  Docs: function(MiXcan_model)
+  Argument names in code not in docs:
+    model keepZeroWeight
+  Argument names in docs not in code:
+    MiXcan_model
+  Mismatches in argument names:
+    Position: 1 Code: model Docs: MiXcan_model
+
+* checking Rd \usage sections ... WARNING
+Undocumented arguments in documentation object 'MiXcan'
+  ‘y’ ‘x’ ‘cov’ ‘pi’ ‘nameMatrix’ ‘foldid’
+Documented arguments not in \usage in documentation object 'MiXcan':
+  ‘y:’ ‘x:’ ‘cov:’ ‘pi:’ ‘nameMatrix:’ ‘foldid:’
+
+Undocumented arguments in documentation object 'MiXcan_association'
+  ‘MiXcan_predicted_expr’ ‘covariates’ ‘outcome’ ‘family’
+Documented arguments not in \usage in documentation object 'MiXcan_association':
+  ‘MiXcan_predicted_expr:’ ‘covariates:’ ‘outcome:’ ‘family:’
+
+Undocumented arguments in documentation object 'pi_estimation'
+  ‘expression_matrix’ ‘n_iteration’ ‘prior’
+Documented arguments not in \usage in documentation object 'pi_estimation':
+  ‘expression_matrix:’ ‘n_iteration:’ ‘prior:’
+
+Functions with \usage entries need to have the appropriate \alias
+entries, and all their arguments documented.
+The \usage entries must correspond to syntactically valid R code.
+See chapter ‘Writing R documentation files’ in the ‘Writing R
+Extensions’ manual.
+* checking Rd contents ... OK
+* checking for unstated dependencies in examples ... OK
+* checking contents of ‘data’ directory ... OK
+* checking data for non-ASCII characters ... OK
+* checking LazyData ... OK
+* checking data for ASCII and uncompressed saves ... OK
+* checking examples ... NONE
+* checking for non-standard things in the check directory ... OK
+* checking for detritus in the temp directory ... OK
+* DONE
+Status: 5 WARNINGs, 1 NOTE

@@ -1,0 +1,11 @@
+MiXcan                  Estimate the cell-type level prediction weights
+                        of a gene.
+MiXcan_association      Association analysis with MiXcan predicted
+                        genetically regulated expression
+MiXcan_extract_weight   Extract the prediction weights
+MiXcan_prediction       Predict the cell-type specific or non-specific
+                        expression levels of a gene with MiXcan model
+                        in new genetic data.
+pi_estimation           A function to get robust cell-type composition
+                        estimation based on the prior estimates and
+                        transcriptomic data.
