@@ -3,7 +3,7 @@
 \name{MiXcan_extract_weight}
 \alias{MiXcan_extract_weight}
 \title{Extract the gene expression prediction weights matrix
-Extract the gene expression prediction weights matrix (elastic net regression coefficients) from MiXcan() function.
+Ext#' ract the gene expression prediction weights matrix (elastic net regression coefficients) from MiXcan() function.
 The output can be directly applied to GWAS data for cell-type specific TWAS.}
 \usage{
 MiXcan_extract_weight(model, keepZeroWeight = F)
@@ -19,6 +19,6 @@ A data frame with weight for cell 1 and 2, including the potential meta data for
 }
 \description{
 Extract the gene expression prediction weights matrix
-Extract the gene expression prediction weights matrix (elastic net regression coefficients) from MiXcan() function.
+Ext#' ract the gene expression prediction weights matrix (elastic net regression coefficients) from MiXcan() function.
 The output can be directly applied to GWAS data for cell-type specific TWAS.
 }

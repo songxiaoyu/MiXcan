@@ -1,5 +1,5 @@
 #' Extract the gene expression prediction weights matrix
-
+#' 
 #' Extract the gene expression prediction weights matrix (elastic net regression coefficients) from MiXcan() function.
 #' The output can be directly applied to GWAS data for cell-type specific TWAS.
 #'
@@ -9,7 +9,6 @@
 #' @return A data frame with weight for cell 1 and 2, including the potential meta data for the SNP
 #' @export
 #'
-#' @examples
 MiXcan_extract_summary <- function(x, y, pi, foldid, model) {
   
   weights=MiXcan_extract_weight(model, keepZeroWeight=T)
