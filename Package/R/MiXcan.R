@@ -72,35 +72,39 @@ MiXcan=function(y, x, cov=NULL, pi, xNameMatrix=NULL, yName=NULL,
 
 
   ## add inference for difference > 0
-  Type ="NonSpecific"
-  idx.diff=((p+3): (2*p+2)) -1
-  idx.nonzero=which(est[-1]!=0)
-  idx.nonzero.diff=intersect(idx.diff, idx.nonzero)
-  print(idx.nonzero.diff)
-  if (length(idx.nonzero.diff)!=0) {
-    xx.select=xx[,idx.nonzero]
 
-    beta.ols.boot=NULL; # beta.en.boot=NULL
-    for(boot in 1:200) {
-      id=sample(n, n, replace =T)
-      gfit = lm(y[id,]~xx.select[id,])
-      beta.ols.boot =rbind(beta.ols.boot, coef(gfit)[-1])
-    }
-    beta.range=apply(beta.ols.boot, 2, function(f) quantile(f, prob=c(0.025, 0.975), na.rm=T))
-    beta.diff.range=beta.range[, match(idx.nonzero.diff, idx.nonzero)]
-    print(beta.diff.range)
-    if (is.null(dim(beta.diff.range))) {
-      any.nonzero= beta.diff.range[1] * beta.diff.range[2]>0} else {
-        print(apply(beta.diff.range, 2, function(f) f[1] * f[2]>0))
-        any.nonzero= any(apply(beta.diff.range, 2, function(f) f[1] * f[2]>0), na.rm=T)
+  if ( suppressWarnings(all(c(beta11, beta21))==0) ) {Type ="NoPredictor"} else {
+    Type ="NonSpecific"
+    idx.diff=((p+3): (2*p+2)) -1
+    idx.nonzero=which(est[-1]!=0)
+    idx.nonzero.diff=intersect(idx.diff, idx.nonzero)
+    # print(idx.nonzero.diff)
+    if (length(idx.nonzero.diff)!=0) {
+      xx.select=xx[,idx.nonzero]
+      beta.ols.boot=NULL; # beta.en.boot=NULL
+      for(boot in 1:200) {
+        id=sample(n, n, replace =T)
+        gfit = lm(y[id,]~xx.select[id,])
+        beta.ols.boot =rbind(beta.ols.boot, coef(gfit)[-1])
       }
+      beta.range=apply(beta.ols.boot, 2, function(f) quantile(f, prob=c(0.025, 0.975), na.rm=T))
+      beta.diff.range=beta.range[, match(idx.nonzero.diff, idx.nonzero)]
+      # print(beta.diff.range)
+      if (is.null(dim(beta.diff.range))) {
+        any.nonzero= beta.diff.range[1] * beta.diff.range[2]>0} else {
+          print(apply(beta.diff.range, 2, function(f) f[1] * f[2]>0))
+          any.nonzero= any(apply(beta.diff.range, 2, function(f) f[1] * f[2]>0), na.rm=T)
+        }
 
-    if (is.na(any.nonzero)==F & any.nonzero==T) {Type ="CellTypeSpecific"}
+      if (is.na(any.nonzero)==F & any.nonzero==T) {Type ="CellTypeSpecific"}
+    }
+
   }
+
   print(Type)
 
 
-  if (Type=="NonSpecific") {
+  if (Type!="CellTypeSpecific") {
     beta1=beta2=est.tissue
   } else {
     if (is.null(cov)) {
@@ -112,7 +116,6 @@ MiXcan=function(y, x, cov=NULL, pi, xNameMatrix=NULL, yName=NULL,
       beta1=c(beta10, beta11, beta_cov)
       beta2=c(beta20, beta21, beta_cov)
     }
-
   }
 
   beta.all.models=cbind(est.tissue, beta1, beta2)
@@ -120,8 +123,12 @@ MiXcan=function(y, x, cov=NULL, pi, xNameMatrix=NULL, yName=NULL,
   beta.SNP.cell1=data.frame(xNameMatrix, weight=beta1[2:(p+1)])
   beta.SNP.cell2=data.frame(xNameMatrix, weight=beta2[2:(p+1)])
 
-  return(list(type=Type, beta.SNP.cell1=beta.SNP.cell1, beta.SNP.cell2=beta.SNP.cell2,
-              beta.all.models=beta.all.models, glmnet.cell=ft, glmnet.tissue=ft0,
+  return(list(type=Type,
+              beta.SNP.cell1=beta.SNP.cell1,
+              beta.SNP.cell2=beta.SNP.cell2,
+              beta.all.models=beta.all.models,
+              glmnet.cell=ft,
+              glmnet.tissue=ft0,
               yName=yName))
 
 
