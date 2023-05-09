@@ -133,8 +133,12 @@ MiXcan_summary_result
 ```
 Note, the MiXcan estimated weights are from penalized regression (elastic-net), which shrinks the effect size towards zero. If users are interested to use un-penalized weights for the MiXcan selected SNPs, they can employ the following function: 
 ```{r}
-MiXcan_weight_refit <- MiXcan_refit_weight(model = MiXcan_result, y=y_example, x=x_example, cov = cov_example, pi= pi_estimation_result$mean_trim_0.05)
+MiXcan_weight_refit <- MiXcan_refit_weight(model = MiXcan_result, y=y_example, 
+                                           x=x_example, cov = cov_example, 
+                                           pi= pi_estimation_result$mean_trim_0.05)
 MiXcan_weight_refit
+
+
 ```
 
 Step 4: Predicting the cell-type-specific or nonspecific expression levels of the gene in a new genetic data.

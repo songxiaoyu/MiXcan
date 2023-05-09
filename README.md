@@ -7,52 +7,52 @@
 
 **Goal:**
 
--   Constructs cell-type-level prediction models for genetically
-    regulated expression (GReX);
+- Constructs cell-type-level prediction models for genetically regulated
+  expression (GReX);
 
--   Predicts cell-type-level GReX in new genotype data; and
+- Predicts cell-type-level GReX in new genotype data; and
 
--   Performs cell-type-aware TWAS.
+- Performs cell-type-aware TWAS.
 
 **Advantages over tissue-level TWAS:**
 
--   Improves GReX prediction accuracy;
+- Improves GReX prediction accuracy;
 
--   Boosts the study power, especially for genes that function in minor
-    cell types or have different association directions in different
-    cell types;
+- Boosts the study power, especially for genes that function in minor
+  cell types or have different association directions in different cell
+  types;
 
--   Sheds light on the responsible cell type(s) of associations.
+- Sheds light on the responsible cell type(s) of associations.
 
 **Disadvantages over tissue-level TWAS:**
 
--   Requires prior knowledge on disease-critical cell types and their
-    proportions in tissue;
+- Requires prior knowledge on disease-critical cell types and their
+  proportions in tissue;
 
--   Has more model parameters;
+- Has more model parameters;
 
--   May be less powerful than tissue-level TWAS for genes that have
-    similar disease associations in different cell types or function in
-    major cell types.
+- May be less powerful than tissue-level TWAS for genes that have
+  similar disease associations in different cell types or function in
+  major cell types.
 
 **Input:**
 
--   Prediction model construction: genotype, covariates, and gene
-    expression data (same as in PrediXcan) + cell-type composition
-    estimates (e.g. from existing methods, such as ESTIMATE, CIBERSORT,
-    xCell).
+- Prediction model construction: genotype, covariates, and gene
+  expression data (same as in PrediXcan) + cell-type composition
+  estimates (e.g. from existing methods, such as ESTIMATE, CIBERSORT,
+  xCell).
 
--   Association Analysis: genotype, covariates and phenotype data (same
-    as in PrediXcan).
+- Association Analysis: genotype, covariates and phenotype data (same as
+  in PrediXcan).
 
 **Output:**
 
--   Prediction model construction: Cell-type-specific or nonspecific
-    prediction weights for different genes.
+- Prediction model construction: Cell-type-specific or nonspecific
+  prediction weights for different genes.
 
--   Association Analysis: Tissue-level association p-values and
-    cell-type-level association summaries including estimates, standard
-    error and p-values.
+- Association Analysis: Tissue-level association p-values and
+  cell-type-level association summaries including estimates, standard
+  error and p-values.
 
 A full description of the method can be found in our
 [paper](https://www.biorxiv.org/content/10.1101/2022.03.15.484509v1.abstract).
@@ -128,7 +128,7 @@ library(tidyverse)
     ## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
     ## ✔ dplyr     1.1.0     ✔ readr     2.1.4
     ## ✔ forcats   1.0.0     ✔ stringr   1.5.0
-    ## ✔ ggplot2   3.4.1     ✔ tibble    3.1.8
+    ## ✔ ggplot2   3.4.1     ✔ tibble    3.2.1
     ## ✔ lubridate 1.9.2     ✔ tidyr     1.3.0
     ## ✔ purrr     1.0.1
 
@@ -137,7 +137,7 @@ library(tidyverse)
     ## ✖ dplyr::filter()     masks stats::filter()
     ## ✖ dplyr::lag()        masks stats::lag()
     ## ✖ purrr::when()       masks foreach::when()
-    ## ℹ Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
+    ## ℹ Use the ]8;;http://conflicted.r-lib.org/conflicted package]8;; to force all conflicts to become errors
 
 ``` r
 nCores=detectCores()-1; registerDoParallel(nCores) # use parallel computing for speed, but leave 1 core out for other activities. 
@@ -148,6 +148,7 @@ prior. This step is optional, and can be ignored if input cell-type
 composition estimates is preferred.
 
 ``` r
+set.seed(123)
 pi_estimation_result <- pi_estimation(expression_matrix = GTEx_epithelial_genes,
               prior = GTEx_prior, 
               n_iteration = 5) 
@@ -174,9 +175,6 @@ foldid_example <- sample(1:10, length(y_example), replace=T)
 MiXcan_result <- MiXcan(y=y_example, x=x_example, cov = cov_example, pi= pi_estimation_result$mean_trim_0.05, foldid = foldid_example)
 ```
 
-    ## [1] 39
-    ##       2.5%      97.5% 
-    ## -0.8464646  2.3792982 
     ## [1] "NonSpecific"
 
 ``` r
@@ -263,6 +261,32 @@ MiXcan_summary_result
     ## cor "19"        "4"         "NonSpecific" "0.0935647635902331"
     ##     in_sample_cor_pvalue  
     ## cor "0.000522283468456319"
+
+Note, the MiXcan estimated weights are from penalized regression
+(elastic-net), which shrinks the effect size towards zero. If users are
+interested to use un-penalized weights for the MiXcan selected SNPs,
+they can employ the following function:
+
+``` r
+MiXcan_weight_refit <- MiXcan_refit_weight(model = MiXcan_result, y=y_example, 
+                                           x=x_example, cov = cov_example, 
+                                           pi= pi_estimation_result$mean_trim_0.05)
+```
+
+    ## Joining with `by = join_by(xNameMatrix)`
+
+    ##     SNP_1     SNP_2     SNP_3 
+    ## 0.0000000 0.0000000 0.0061462
+
+``` r
+MiXcan_weight_refit
+```
+
+    ##   xNameMatrix weight_cell_1 weight_cell_2        type
+    ## 1        SNP3    0.07927261    0.07927261 NonSpecific
+    ## 2        SNP4    0.06740230    0.06740230 NonSpecific
+    ## 3       SNP10   -0.02813351   -0.02813351 NonSpecific
+    ## 4       SNP19   -0.12835906   -0.12835906 NonSpecific
 
 Step 4: Predicting the cell-type-specific or nonspecific expression
 levels of the gene in a new genetic data.
