@@ -13,7 +13,7 @@ prediction weights as well as other summaries of the prediction models.}
 \item{keepZeroWeight}{Default=F. Whether to keep SNPs that have zero weights in all cell types.}
 }
 \value{
-A data frame with weight for cell 1 and 2, including the potential meta data for the SNP
+A data frame with weight for cell 1 and 2, including the potential meta data for the SNP/gene.
 }
 \description{
 Extract the gene expression prediction weights matrix (elastic net regression coefficients) from MiXcan() function.

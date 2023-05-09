@@ -73,7 +73,7 @@ MiXcan=function(y, x, cov=NULL, pi, xNameMatrix=NULL, yName=NULL,
 
   ## add inference for difference > 0
 
-  if ( suppressWarnings(all(c(beta11, beta21))==0) ) {Type ="NoPredictor"} else {
+  if (suppressWarnings( all(c(beta11, beta21)==0) )) {Type ="NoPredictor"} else {
     Type ="NonSpecific"
     idx.diff=((p+3): (2*p+2)) -1
     idx.nonzero=which(est[-1]!=0)
@@ -129,7 +129,8 @@ MiXcan=function(y, x, cov=NULL, pi, xNameMatrix=NULL, yName=NULL,
               beta.all.models=beta.all.models,
               glmnet.cell=ft,
               glmnet.tissue=ft0,
-              yName=yName))
+              yName=yName,
+              xNameMatrix=xNameMatrix))
 
 
 }
