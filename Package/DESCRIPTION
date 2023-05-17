@@ -12,6 +12,7 @@ RoxygenNote: 7.2.3
 Imports: 
     doParallel,
     tidyverse,
+    Matrix,
     glmnet,
     broom,
     dplyr,

@@ -25,8 +25,8 @@ MiXcan_refit_weight <- function(model, x, y, cov, pi) {
     if (is.null(cov)) {xcov=x} else {
       cov=as.matrix(cov); xcov=as.matrix(cbind(x, cov))}
     print(model$glmnet.tissue$beta[1:3,])
-    xreduced=xcov[, which(as.numeric(model$glmnet.tissue$beta) !=0)]
-    snpidx=which(model$glmnet.tissue$beta[1:p]!=0)
+    xreduced=xcov[, Matrix::which(as.numeric(model$glmnet.tissue$beta) !=0)]
+    snpidx=Matrix::which(model$glmnet.tissue$beta[1:p]!=0)
     if (ncol(xreduced)>1) {
       ft=glmnet::glmnet(x=xreduced, y=y, family = "gaussian", alpha=0, lambda = 0)
       beta=ft$beta[1:length(snpidx)]
@@ -50,9 +50,9 @@ MiXcan_refit_weight <- function(model, x, y, cov, pi) {
       cov=as.matrix(cov); ci=pi-0.5; z=ci*x;
       xx=as.matrix(cbind(ci, x, z, cov))}
 
-    xreduced=xx[,which(model$glmnet.cell$beta!=0)]
-    snpidx1=which(model$glmnet.cell$beta[2:(p+1)]!=0)
-    snpidx2=which(model$glmnet.cell$beta[(p+2):(2*p+1)]!=0)
+    xreduced=xx[,Matrix::which(model$glmnet.cell$beta!=0)]
+    snpidx1=Matrix::which(model$glmnet.cell$beta[2:(p+1)]!=0)
+    snpidx2=Matrix::which(model$glmnet.cell$beta[(p+2):(2*p+1)]!=0)
     snpidx=union(snpidx1, snpidx2); snpidx=snpidx[order(snpidx)]
     ft=glmnet::glmnet(x=xreduced, y=y, family = "gaussian", alpha=0, lambda = 0)
     est=c(ft$a0,as.numeric(ft$beta))
