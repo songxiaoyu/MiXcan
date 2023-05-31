@@ -14,9 +14,9 @@
 #' @return A data frame with weight for cell 1 and 2, including the potential meta data for the SNP/gene.
 #' @export
 #'
-MiXcan_refit_weight <- function(model, x, y, cov, pi) {
+MiXcan_refit_weight <- function(model, x, y, cov, pi, keepZeroWeight=F) {
   MiXcan_weight_result <- MiXcan_extract_weight(model = model, keepZeroWeight = F)
-
+  MiXcan_weight_result2 <- MiXcan_extract_weight(model = model, keepZeroWeight = T)
   # NoPredictor - no performance
 
   # NonSpecific
@@ -24,7 +24,7 @@ MiXcan_refit_weight <- function(model, x, y, cov, pi) {
     x=as.matrix(x); y=as.matrix(y); p=ncol(x)
     if (is.null(cov)) {xcov=x} else {
       cov=as.matrix(cov); xcov=as.matrix(cbind(x, cov))}
-    print(model$glmnet.tissue$beta[1:3,])
+    
     xreduced=xcov[, Matrix::which(as.numeric(model$glmnet.tissue$beta) !=0)]
     snpidx=Matrix::which(model$glmnet.tissue$beta[1:p]!=0)
     if (ncol(xreduced)>1) {
@@ -49,20 +49,27 @@ MiXcan_refit_weight <- function(model, x, y, cov, pi) {
     } else {
       cov=as.matrix(cov); ci=pi-0.5; z=ci*x;
       xx=as.matrix(cbind(ci, x, z, cov))}
-
-    xreduced=xx[,Matrix::which(model$glmnet.cell$beta!=0)]
-    snpidx1=Matrix::which(model$glmnet.cell$beta[2:(p+1)]!=0)
-    snpidx2=Matrix::which(model$glmnet.cell$beta[(p+2):(2*p+1)]!=0)
-    snpidx=union(snpidx1, snpidx2); snpidx=snpidx[order(snpidx)]
+    
+    idx=Matrix::which(model$glmnet.cell$beta!=0)
+    xreduced=xx[,idx]
     ft=glmnet::glmnet(x=xreduced, y=y, family = "gaussian", alpha=0, lambda = 0)
-    est=c(ft$a0,as.numeric(ft$beta))
+    est0=as.numeric(ft$beta)
+    beta=rep(0, length(model$glmnet.cell$beta))
+    beta[idx]=est0
+    est=c(0, beta)
+
     beta11=est[3: (p+2)] + est[(p+3): (2*p+2)]/2
     beta21=est[3: (p+2)] - est[(p+3): (2*p+2)]/2
 
-    MiXcan_weight_result$weight_cell_1=beta11[snpidx]
-    MiXcan_weight_result$weight_cell_2=beta21[snpidx]
+    MiXcan_weight_result2$weight_cell_1=beta11
+    MiXcan_weight_result2$weight_cell_2=beta21
+    
+    if (keepZeroWeight==F) {
+      MiXcan_weight_result2 = MiXcan_weight_result2 %>%
+        filter(!(weight_cell_1 == 0 & weight_cell_1 == 0))
+    }
 
   }
-  return(MiXcan_weight_result)
+  return(MiXcan_weight_result2)
 }
 
