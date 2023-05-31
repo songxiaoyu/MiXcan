@@ -4,15 +4,15 @@
 \alias{MiXcan_association}
 \title{Association analysis with MiXcan predicted genetically regulated expression}
 \usage{
-MiXcan_association(MiXcan_predicted_expr, covariates, outcome, family)
+MiXcan_association(new_y, new_cov, new_outcome, family = gaussian)
 }
 \arguments{
-\item{MiXcan_predicted_expr:}{A N by 2 matrix indicating the predicted gene expression levels in two
+\item{new_y:}{A N by 2 matrix indicating the predicted gene expression levels in two
 cell types. If a non-specific model is used for prediction, the predicted values should be the same in two cell types.}
 
-\item{covariates:}{A N by P matrix for the covariates in association analysis.}
+\item{new_cov:}{A N by P matrix for the covariates in association analysis.}
 
-\item{outcome:}{The dependent variable of the association analysis. It can be continuous, categorical
+\item{new_outcome:}{The dependent variable of the association analysis. It can be continuous, categorical
 and count variables, and modeled through generalized linear models (GLM).}
 
 \item{family:}{Same as the family object used in GLM.}
