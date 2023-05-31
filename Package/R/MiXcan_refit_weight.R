@@ -10,12 +10,11 @@
 #' @param pi: An estimation of cell-type faction of the cell type of interest (e.g.
 #' epithelial). It can be estimated using existing methods
 #' in the literature or from the output of pi_estimation function.
-#' @param keepZeroWeight Default=F. Whether to keep SNPs that have zero weights in all cell types.
 #'
 #' @return A data frame with weight for cell 1 and 2, including the potential meta data for the SNP/gene.
 #' @export
 #'
-MiXcan_refit_weight <- function(model, x, y, cov, pi, keepZeroWeight=F) {
+MiXcan_refit_weight <- function(model, x, y, cov, pi) {
   MiXcan_weight_result <- MiXcan_extract_weight(model = model, keepZeroWeight = F)
   MiXcan_weight_result2 <- MiXcan_extract_weight(model = model, keepZeroWeight = T)
   # NoPredictor - no performance
@@ -58,19 +57,16 @@ MiXcan_refit_weight <- function(model, x, y, cov, pi, keepZeroWeight=F) {
     beta=rep(0, length(model$glmnet.cell$beta))
     beta[idx]=est0
     est=c(0, beta)
-
     beta11=est[3: (p+2)] + est[(p+3): (2*p+2)]/2
     beta21=est[3: (p+2)] - est[(p+3): (2*p+2)]/2
 
     MiXcan_weight_result2$weight_cell_1=beta11
     MiXcan_weight_result2$weight_cell_2=beta21
 
-    if (keepZeroWeight==F) {
-      MiXcan_weight_result2 = MiXcan_weight_result2 %>%
-        filter(!(weight_cell_1 == 0 & weight_cell_1 == 0))
-    }
+    MiXcan_weight_result = MiXcan_weight_result2 %>%
+      filter(!(weight_cell_1 == 0 & weight_cell_1 == 0))
 
   }
-  return(MiXcan_weight_result2)
+  return(MiXcan_weight_result)
 }
 
