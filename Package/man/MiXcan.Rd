@@ -13,8 +13,8 @@ MiXcan(y, x, cov = NULL, pi, xNameMatrix = NULL, yName = NULL, foldid = NULL)
 
 \item{cov:}{A N by Q matrix for the covariates adjusted in the model (e.g. age, population stratification).}
 
-\item{pi:}{An estimation of cell-type faction of the cell type of interest (e.g.
-epithelial). It can be estimated using existing methods
+\item{pi:}{An estimation of cell-type fraction for the cell type of interest (e.g.
+epithelial). It can be obtained using existing methods
 in the literature or from the output of pi_estimation function.}
 
 \item{xNameMatrix:}{Default is NULL. A matrix to save theX matrix information,

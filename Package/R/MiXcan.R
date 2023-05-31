@@ -5,8 +5,8 @@
 #' @param y: The pre-cleaned expression level data for a single gene in N samples.
 #' @param x: A N by P matrix for all the genetic predictors used to predict the genetically regulated expression  of the gene.
 #' @param cov: A N by Q matrix for the covariates adjusted in the model (e.g. age, population stratification).
-#' @param pi: An estimation of cell-type faction of the cell type of interest (e.g.
-#' epithelial). It can be estimated using existing methods
+#' @param pi: An estimation of cell-type fraction for the cell type of interest (e.g.
+#' epithelial). It can be obtained using existing methods
 #' in the literature or from the output of pi_estimation function.
 #' @param xNameMatrix: Default is NULL. A matrix to save theX matrix information,
 #' such as variable ID, position, rsid, ref_allele, eff_allele.

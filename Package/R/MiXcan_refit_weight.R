@@ -25,7 +25,7 @@ MiXcan_refit_weight <- function(model, x, y, cov, pi) {
     if (is.null(cov)) {xcov=x} else {
       cov=as.matrix(cov); xcov=as.matrix(cbind(x, cov))}
 
-    xreduced=xcov[, Matrix::which(as.numeric(model$glmnet.tissue$beta) !=0)]
+    xreduced=as.matrix(xcov[, Matrix::which(as.numeric(model$glmnet.tissue$beta) !=0)])
     snpidx=Matrix::which(model$glmnet.tissue$beta[1:p]!=0)
     if (ncol(xreduced)>1) {
       ft=glmnet::glmnet(x=xreduced, y=y, family = "gaussian", alpha=0, lambda = 0)
