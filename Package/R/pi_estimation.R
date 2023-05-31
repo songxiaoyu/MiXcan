@@ -11,7 +11,8 @@
 #'
 #'
 
-pi_estimation <- function(expression_matrix, n_iteration, prior){
+pi_estimation <- function(expression_matrix,
+                          n_iteration=5, prior){
 
   TSNetB_prop=foreach (i = 1:n_iteration, .combine = "rbind") %dopar%{
     sample_index <- sample(sample(1:dim(expression_matrix)[2], round(dim(expression_matrix)[2] * 0.8), replace = FALSE))

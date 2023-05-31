@@ -4,7 +4,7 @@
 \alias{pi_estimation}
 \title{A function to get robust cell-type composition estimation based on the prior estimates and transcriptomic data.}
 \usage{
-pi_estimation(expression_matrix, n_iteration, prior)
+pi_estimation(expression_matrix, n_iteration = 5, prior)
 }
 \arguments{
 \item{expression_matrix:}{G by N gene expression matrix for estimating cell type composition of the tissue.

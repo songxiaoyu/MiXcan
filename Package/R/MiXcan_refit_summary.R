@@ -9,7 +9,7 @@
 #' @param x: A N by P matrix for all the genetic predictors used to predict the genetically regulated expression  of the gene.
 #' @param cov: A N by Q matrix for the covariates adjusted in the model (e.g. age, population stratification).
 #' @param pi: An estimation of cell-type fraction for the cell type of interest.
-#' 
+#'
 
 #' @return A data frame with weight for cell 1 and 2, including the potential meta data for the SNP
 #' @export
@@ -17,15 +17,15 @@
 MiXcan_refit_summary <- function(model, x, y, pi, cov=NULL) {
   summary <- MiXcan_extract_summary(x=x, y=y, pi=pi, model=model)
   weights=MiXcan_extract_weight(model, keepZeroWeight=T)
-  w2 <- MiXcan_refit_weight(model = model, y=y,x=x, cov = NULL, pi= pi)
+  w2 <- MiXcan_refit_weight(model = model, y=y,x=x, cov = cov, pi= pi)
   idx=match(w2$xNameMatrix, weights$xNameMatrix)
-  weights$weight_cell_1[idx]=w2$weight_cell_1 
-  weights$weight_cell_2[idx]=w2$weight_cell_2 
-  
+  weights$weight_cell_1[idx]=w2$weight_cell_1
+  weights$weight_cell_2[idx]=w2$weight_cell_2
+
   yhat=x %*% weights$weight_cell_1 *pi + x %*% weights$weight_cell_2 *(1-pi)
-  
+
   r=cor.test(y,yhat, use="complete.obs")
-  summary2= summary %>% data.frame() %>% 
+  summary2= summary %>% data.frame() %>%
     mutate(in_sample_r2_refit=r$estimate^2) %>%
     mutate(in_sample_cor_pvalue_refit = r$p.value)
 

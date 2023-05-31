@@ -152,15 +152,11 @@ set.seed(123)
 pi_estimation_result <- pi_estimation(expression_matrix = GTEx_epithelial_genes,
               prior = GTEx_prior, 
               n_iteration = 5) 
-pi_estimation_result[1:3,]
+pi_example=pi_estimation_result$mean_trim_0.05
+pi_example[1:3]
 ```
 
-    ## # A tibble: 3 × 2
-    ##   sample     mean_trim_0.05
-    ##   <chr>               <dbl>
-    ## 1 sample_1            0.239
-    ## 2 sample_10           0.226
-    ## 3 sample_100          0.1
+    ## [1] 0.2394073 0.2258077 0.1000000
 
 ``` r
 # Note: 0<prior<1 that prior should not hit the boundaries. If xCell score is used, add a small perturbation for zero.
@@ -172,12 +168,7 @@ weights of a gene using the MiXcan function
 ``` r
 set.seed(111)
 foldid_example <- sample(1:10, length(y_example), replace=T)
-MiXcan_result <- MiXcan(y=y_example, x=x_example, cov = cov_example, pi= pi_estimation_result$mean_trim_0.05, foldid = foldid_example)
-```
-
-    ## [1] "NonSpecific"
-
-``` r
+MiXcan_result <- MiXcan(y=y_example, x=x_example, cov = cov_example, pi= pi_example, foldid = foldid_example)
 MiXcan_result$beta.SNP.cell1
 ```
 
@@ -247,7 +238,7 @@ MiXcan_weight_result
     ## 4       SNP19   -0.06553891   -0.06553891 NonSpecific
 
 ``` r
-MiXcan_summary_result <- MiXcan_extract_summary(x=x_example, y=y_example, pi=pi_estimation_result$mean_trim_0.05, foldid=foldid, model=MiXcan_result)
+MiXcan_summary_result <- MiXcan_extract_summary(x=x_example, y=y_example, pi=pi_example, model=MiXcan_result)
 ```
 
     ## Joining with `by = join_by(xNameMatrix)`
@@ -270,13 +261,11 @@ they can employ the following function:
 ``` r
 MiXcan_weight_refit <- MiXcan_refit_weight(model = MiXcan_result, y=y_example, 
                                            x=x_example, cov = cov_example, 
-                                           pi= pi_estimation_result$mean_trim_0.05)
+                                           pi= pi_example)
 ```
 
     ## Joining with `by = join_by(xNameMatrix)`
-
-    ##     SNP_1     SNP_2     SNP_3 
-    ## 0.0000000 0.0000000 0.0061462
+    ## Joining with `by = join_by(xNameMatrix)`
 
 ``` r
 MiXcan_weight_refit
@@ -287,6 +276,29 @@ MiXcan_weight_refit
     ## 2        SNP4    0.06740230    0.06740230 NonSpecific
     ## 3       SNP10   -0.02813351   -0.02813351 NonSpecific
     ## 4       SNP19   -0.12835906   -0.12835906 NonSpecific
+
+Similarly, one can get the refitted model summary.
+
+``` r
+MiXcan_summary_refit <- MiXcan_refit_summary(model = MiXcan_result, y=y_example, 
+                                           x=x_example, cov = cov_example, 
+                                           pi= pi_example)
+```
+
+    ## Joining with `by = join_by(xNameMatrix)`
+    ## Joining with `by = join_by(xNameMatrix)`
+    ## Joining with `by = join_by(xNameMatrix)`
+    ## Joining with `by = join_by(xNameMatrix)`
+    ## Joining with `by = join_by(xNameMatrix)`
+
+``` r
+MiXcan_summary_refit 
+```
+
+    ##     n_snp_input n_snp_model  model_type       in_sample_r2 in_sample_cor_pvalue
+    ## cor          19           4 NonSpecific 0.0935647635902331 0.000522283468456319
+    ##     in_sample_r2_refit in_sample_cor_pvalue_refit
+    ## cor          0.0886509               0.0007455809
 
 Step 4: Predicting the cell-type-specific or nonspecific expression
 levels of the gene in a new genetic data.
