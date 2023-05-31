@@ -305,39 +305,25 @@ levels of the gene in a new genetic data.
 
 ``` r
 MiXcan_prediction_result <- MiXcan_prediction(weight = MiXcan_weight_result, new_x = new_X_example)
-MiXcan_prediction_result
+MiXcan_prediction_result[1:3,]
 ```
 
     ##           cell_1      cell_2
-    ## id1  -0.05324651 -0.05324651
-    ## id2   0.00000000  0.00000000
-    ## id3  -0.03150262 -0.03150262
-    ## id4  -0.05466697 -0.05466697
-    ## id5  -0.12020588 -0.12020588
-    ## id6  -0.08345960 -0.08345960
-    ## id7  -0.12596509 -0.12596509
-    ## id8  -0.17921161 -0.17921161
-    ## id9  -0.07770039 -0.07770039
-    ## id10 -0.02406689 -0.02406689
+    ## [1,]  0.00000000  0.00000000
+    ## [2,] -0.01319494 -0.01319494
+    ## [3,]  0.01701815  0.01701815
 
 Step 5: Association analysis with MiXcan predicted GReX levels
 
 ``` r
-MiXcan_association_result <- MiXcan_association(MiXcan_predicted_expr = MiXcan_prediction_result,
-                                                covariates = covariates_example, outcome = outcome_example, family  = "binomial")
-```
-
-    ## Warning in data.frame(..., check.names = FALSE): row names were found from a
-    ## short variable and have been discarded
-
-``` r
+MiXcan_association_result <- MiXcan_association(new_y = MiXcan_prediction_result,
+                                                new_cov = new_cov_example, 
+                                                new_outcome = new_outcome_example, family  = "binomial")
 MiXcan_association_result
 ```
 
-    ##   cell_1_estimate cell_1_std.error  cell_1_p cell_2_estimate cell_2_std.error
-    ## 1      -0.1465637         1.778105 0.9343073      -0.1465637         1.778105
-    ##    cell_2_p p_combined
-    ## 1 0.9343073  0.9343073
+    ##   cell1_est cell1_se   cell1_p cell2_est cell2_se   cell2_p p_combined
+    ## 1 -1.213994 1.953321 0.5342691 -1.213994 1.953321 0.5342691  0.5342691
 
 ## Pretrained models:
 

@@ -162,8 +162,9 @@ Step 5: Association analysis with MiXcan predicted GReX levels
 
 ```{r}
 
-MiXcan_association_result <- MiXcan_association(MiXcan_predicted_expr = MiXcan_prediction_result,
-                                                covariates = new_cov_example, outcome = new_outcome_example, family  = "binomial")
+MiXcan_association_result <- MiXcan_association(new_y = MiXcan_prediction_result,
+                                                new_cov = new_cov_example, 
+                                                new_outcome = new_outcome_example, family  = "binomial")
 MiXcan_association_result
 
 ```
