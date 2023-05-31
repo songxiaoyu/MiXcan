@@ -153,7 +153,7 @@ MiXcan_summary_refit
 Step 4: Predicting the cell-type-specific or nonspecific expression levels of the gene in a new genetic data.
 ```{r}
 MiXcan_prediction_result <- MiXcan_prediction(weight = MiXcan_weight_result, new_x = new_X_example)
-MiXcan_prediction_result
+MiXcan_prediction_result[1:3,]
 ```
 
 

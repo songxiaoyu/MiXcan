@@ -12,7 +12,7 @@ a=colnames(new_X_example)
 new_X_example=matrix(rbinom(2000, 2, 0.3), ncol=4)
 colnames(new_X_example)=c("SNP3", "SNP4", "SNP10", "SNP19")
 new_outcome_example=rbinom(500, 1, 0.3)
-new_cov_example=cbind(age=round(rnorm(500, 50), 2), female=rbinom(500, 1, 0.45)
+new_cov_example=cbind(age=round(rnorm(500, 50), 2), female=rbinom(500, 1, 0.45))
 
 
 data(example_data)
