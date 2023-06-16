@@ -21,7 +21,7 @@ MiXcan_extract_weight <- function(model, keepZeroWeight=F) {
 
   if (keepZeroWeight==F) {
     result_weight_gene_once = result_weight_gene_once %>%
-      filter(!(weight_cell_1 == 0 & weight_cell_1 == 0))
+      dplyr::filter(!(weight_cell_1 == 0 & weight_cell_2 == 0))
   }
 
   return(result_weight_gene_once)

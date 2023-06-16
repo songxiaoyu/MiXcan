@@ -64,7 +64,7 @@ MiXcan_refit_weight <- function(model, x, y, cov, pi) {
     MiXcan_weight_result2$weight_cell_2=beta21
 
     MiXcan_weight_result = MiXcan_weight_result2 %>%
-      filter(!(weight_cell_1 == 0 & weight_cell_1 == 0))
+      dplyr::filter(!(weight_cell_1 == 0 & weight_cell_1 == 0))
 
   }
   return(MiXcan_weight_result)

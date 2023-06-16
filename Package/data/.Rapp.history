@@ -1,0 +1,2 @@
+load("/Users/songxiaoyu152/Library/CloudStorage/OneDrive-TheMountSinaiHospital/CPTAC_Song/Paper_MiXcan/Github/Package/data/example_data.rda")
+dim(new_cov_example)
