@@ -13,9 +13,9 @@
 MiXcan_extract_weight <- function(model, keepZeroWeight=F) {
   result_weight_gene_once <-
     model$beta.SNP.cell1 %>%
-    rename(weight_cell_1 = weight) %>%
+    dplyr::rename(weight_cell_1 = weight) %>%
     inner_join(model$beta.SNP.cell2 %>%
-                 rename(weight_cell_2 = weight)) %>%
+                 dplyr::rename(weight_cell_2 = weight)) %>%
     mutate(type = model$type) %>%
     add_column(yName=model$yName, .before = 1)
 
