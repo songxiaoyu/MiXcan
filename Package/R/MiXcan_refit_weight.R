@@ -14,7 +14,7 @@
 #' @return A data frame with weight for cell 1 and 2, including the potential meta data for the SNP/gene.
 #' @export
 #'
-MiXcan_refit_weight <- function(model, x, y, cov, pi) {
+MiXcan_refit_weight <- function(model, x, y, cov, pi, keepZeroWeight=F) {
   MiXcan_weight_result <- MiXcan_extract_weight(model = model, keepZeroWeight = F)
   MiXcan_weight_result2 <- MiXcan_extract_weight(model = model, keepZeroWeight = T)
   # NoPredictor - no performance
@@ -31,12 +31,21 @@ MiXcan_refit_weight <- function(model, x, y, cov, pi) {
       ft=glmnet::glmnet(x=xreduced, y=y, family = "gaussian", alpha=0, lambda = 0)
       beta=ft$beta[1:length(snpidx)]
       MiXcan_weight_result$weight_cell_1=
-        MiXcan_weight_result$weight_cell_2=as.numeric(beta)
+        MiXcan_weight_result$weight_cell_2=
+        as.numeric(beta)
+      MiXcan_weight_result2$weight_cell_1[MiXcan_weight_result2$weight_cell_1!=0]=
+        MiXcan_weight_result2$weight_cell_2[MiXcan_weight_result2$weight_cell_1!=0]=
+        as.numeric(beta)
+
+
     } else {
       ft=lm(y~xreduced)
       beta=ft$coefficients[-1]
       MiXcan_weight_result$weight_cell_1=
         MiXcan_weight_result$weight_cell_2=as.numeric(beta)
+      MiXcan_weight_result2$weight_cell_1[MiXcan_weight_result2$weight_cell_1!=0]=
+        MiXcan_weight_result2$weight_cell_2[MiXcan_weight_result2$weight_cell_1!=0]=
+        as.numeric(beta)
     }
   }
 
@@ -67,6 +76,10 @@ MiXcan_refit_weight <- function(model, x, y, cov, pi) {
       dplyr::filter(!(weight_cell_1 == 0 & weight_cell_1 == 0))
 
   }
-  return(MiXcan_weight_result)
+
+  if (keepZeroWeight==F) {
+    res=MiXcan_weight_result
+  } else {res=MiXcan_weight_result2}
+  return(res)
 }
 
