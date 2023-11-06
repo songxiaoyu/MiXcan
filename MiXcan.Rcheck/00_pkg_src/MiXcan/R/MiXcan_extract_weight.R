@@ -13,15 +13,15 @@
 MiXcan_extract_weight <- function(model, keepZeroWeight=F) {
   result_weight_gene_once <-
     model$beta.SNP.cell1 %>%
-    rename(weight_cell_1 = weight) %>%
+    dplyr::rename(weight_cell_1 = weight) %>%
     inner_join(model$beta.SNP.cell2 %>%
-                 rename(weight_cell_2 = weight)) %>%
+                 dplyr::rename(weight_cell_2 = weight)) %>%
     mutate(type = model$type) %>%
     add_column(yName=model$yName, .before = 1)
 
   if (keepZeroWeight==F) {
     result_weight_gene_once = result_weight_gene_once %>%
-      filter(!(weight_cell_1 == 0 & weight_cell_1 == 0))
+      dplyr::filter(!(weight_cell_1 == 0 & weight_cell_2 == 0))
   }
 
   return(result_weight_gene_once)

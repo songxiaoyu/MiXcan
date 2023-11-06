@@ -4,7 +4,7 @@
 \alias{MiXcan_refit_weight}
 \title{Un-penalized weights for MiXcan selected SNPs}
 \usage{
-MiXcan_refit_weight(model, x, y, cov, pi)
+MiXcan_refit_weight(model, x, y, cov, pi, keepZeroWeight = F)
 }
 \arguments{
 \item{model}{A direct output from MiXcan() function, which includes the
@@ -19,6 +19,8 @@ prediction weights as well as other summaries of the prediction models.}
 \item{pi:}{An estimation of cell-type faction of the cell type of interest (e.g.
 epithelial). It can be estimated using existing methods
 in the literature or from the output of pi_estimation function.}
+
+\item{keepZeroWeight:}{Whether to keep predictors with zero weights.}
 }
 \value{
 A data frame with weight for cell 1 and 2, including the potential meta data for the SNP/gene.

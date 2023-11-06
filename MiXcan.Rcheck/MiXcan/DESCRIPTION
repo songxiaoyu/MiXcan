@@ -10,9 +10,9 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.2.3
-Imports: doParallel, tidyverse, glmnet, broom, dplyr,
+Imports: doParallel, tidyverse, Matrix, glmnet, broom, dplyr,
 Remotes: github::yaowuliu/ACAT
 NeedsCompilation: no
-Packaged: 2023-05-09 22:15:00 UTC; songxiaoyu152
+Packaged: 2023-11-06 17:50:41 UTC; songxiaoyu152
 Depends: R (>= 3.5.0)
-Built: R 4.2.3; ; 2023-05-09 22:15:05 UTC; unix
+Built: R 4.2.3; ; 2023-11-06 17:50:48 UTC; unix

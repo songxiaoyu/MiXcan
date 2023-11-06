@@ -1,4 +1,4 @@
-* using log directory ‘/Users/songxiaoyu152/Library/CloudStorage/OneDrive-TheMountSinaiHospital/CPTAC_Song/Paper_MiXcan/Github/MiXcan.Rcheck’
+* using log directory ‘/Users/songxiaoyu152/Dropbox/Density_Song/Paper_MiXcan/Github/MiXcan.Rcheck’
 * using R version 4.2.3 (2023-03-15)
 * using platform: x86_64-apple-darwin17.0 (64-bit)
 * using session charset: UTF-8
@@ -45,8 +45,7 @@ MiXcan: no visible global function definition for ‘lm’
 MiXcan: no visible global function definition for ‘coef’
 MiXcan : <anonymous>: no visible global function definition for
   ‘quantile’
-MiXcan_association: no visible binding for global variable
-  ‘MiXcan_prediction_result’
+MiXcan_association: no visible binding for global variable ‘gaussian’
 MiXcan_association: no visible global function definition for ‘glm’
 MiXcan_association: no visible global function definition for
   ‘as.formula’
@@ -63,8 +62,6 @@ MiXcan_association: no visible global function definition for
 MiXcan_extract_summary: no visible global function definition for
   ‘cor.test’
 MiXcan_extract_weight: no visible global function definition for ‘%>%’
-MiXcan_extract_weight: no visible global function definition for
-  ‘rename’
 MiXcan_extract_weight: no visible binding for global variable ‘weight’
 MiXcan_extract_weight: no visible global function definition for
   ‘inner_join’
@@ -72,11 +69,19 @@ MiXcan_extract_weight: no visible global function definition for
   ‘mutate’
 MiXcan_extract_weight: no visible global function definition for
   ‘add_column’
-MiXcan_extract_weight: no visible global function definition for
-  ‘filter’
 MiXcan_extract_weight: no visible binding for global variable
   ‘weight_cell_1’
+MiXcan_extract_weight: no visible binding for global variable
+  ‘weight_cell_2’
+MiXcan_refit_summary: no visible global function definition for
+  ‘cor.test’
+MiXcan_refit_summary: no visible global function definition for ‘%>%’
+MiXcan_refit_summary: no visible global function definition for
+  ‘mutate’
 MiXcan_refit_weight: no visible global function definition for ‘lm’
+MiXcan_refit_weight: no visible global function definition for ‘%>%’
+MiXcan_refit_weight: no visible binding for global variable
+  ‘weight_cell_1’
 calculateLL.1d : <anonymous>: no visible global function definition for
   ‘dnorm’
 deNet_purity: no visible binding for global variable ‘sd’
@@ -101,14 +106,14 @@ pi_estimation: no visible global function definition for ‘summarise’
 pi_estimation: no visible binding for global variable ‘prop’
 pi_estimation: no visible binding for global variable ‘ungroup’
 Undefined global functions or variables:
-  %>% %dopar% MiXcan_prediction_result add_column as.formula bind_cols
-  coef cor cor.test dbeta dnorm estimate filter foreach glm group_by i
-  inner_join lm mutate optim p.value prop quantile rename sd std.error
-  summarise term tibble ungroup var weight weight_cell_1
+  %>% %dopar% add_column as.formula bind_cols coef cor cor.test dbeta
+  dnorm estimate filter foreach gaussian glm group_by i inner_join lm
+  mutate optim p.value prop quantile sd std.error summarise term tibble
+  ungroup var weight weight_cell_1 weight_cell_2
 Consider adding
   importFrom("stats", "as.formula", "coef", "cor", "cor.test", "dbeta",
-             "dnorm", "filter", "glm", "lm", "optim", "quantile", "sd",
-             "var")
+             "dnorm", "filter", "gaussian", "glm", "lm", "optim",
+             "quantile", "sd", "var")
 to your NAMESPACE file.
 * checking Rd files ... OK
 * checking Rd metadata ... OK
@@ -116,13 +121,12 @@ to your NAMESPACE file.
 * checking Rd cross-references ... OK
 * checking for missing documentation entries ... WARNING
 Undocumented code objects:
-  ‘GTEx_epithelial_genes’ ‘GTEx_prior’ ‘cov_example’
-  ‘covariates_example’ ‘deNet_purity’ ‘new_X_example’ ‘outcome_example’
-  ‘x_example’ ‘y_example’
-Undocumented data sets:
-  ‘GTEx_epithelial_genes’ ‘GTEx_prior’ ‘cov_example’
-  ‘covariates_example’ ‘new_X_example’ ‘outcome_example’ ‘x_example’
+  ‘GTEx_epithelial_genes’ ‘GTEx_prior’ ‘cov_example’ ‘deNet_purity’
+  ‘new_X_example’ ‘new_cov_example’ ‘new_outcome_example’ ‘x_example’
   ‘y_example’
+Undocumented data sets:
+  ‘GTEx_epithelial_genes’ ‘GTEx_prior’ ‘cov_example’ ‘new_X_example’
+  ‘new_cov_example’ ‘new_outcome_example’ ‘x_example’ ‘y_example’
 All user-level objects in a package should have documentation entries.
 See chapter ‘Writing R documentation files’ in the ‘Writing R
 Extensions’ manual.
@@ -134,19 +138,24 @@ Documented arguments not in \usage in documentation object 'MiXcan':
   ‘y:’ ‘x:’ ‘cov:’ ‘pi:’ ‘xNameMatrix:’ ‘yName:’ ‘foldid:’
 
 Undocumented arguments in documentation object 'MiXcan_association'
-  ‘MiXcan_predicted_expr’ ‘covariates’ ‘outcome’ ‘family’
+  ‘new_y’ ‘new_cov’ ‘new_outcome’ ‘family’
 Documented arguments not in \usage in documentation object 'MiXcan_association':
-  ‘MiXcan_predicted_expr:’ ‘covariates:’ ‘outcome:’ ‘family:’
+  ‘new_y:’ ‘new_cov:’ ‘new_outcome:’ ‘family:’
 
 Undocumented arguments in documentation object 'MiXcan_extract_summary'
-  ‘x’ ‘y’ ‘pi’ ‘foldid’ ‘model’
+  ‘x’ ‘y’ ‘pi’
 Documented arguments not in \usage in documentation object 'MiXcan_extract_summary':
-  ‘MiXcan_model’
+  ‘y:’ ‘x:’ ‘pi:’
+
+Undocumented arguments in documentation object 'MiXcan_refit_summary'
+  ‘x’ ‘y’ ‘pi’ ‘cov’
+Documented arguments not in \usage in documentation object 'MiXcan_refit_summary':
+  ‘y:’ ‘x:’ ‘cov:’ ‘pi:’
 
 Undocumented arguments in documentation object 'MiXcan_refit_weight'
-  ‘x’ ‘y’ ‘cov’ ‘pi’
+  ‘x’ ‘y’ ‘cov’ ‘pi’ ‘keepZeroWeight’
 Documented arguments not in \usage in documentation object 'MiXcan_refit_weight':
-  ‘y:’ ‘x:’ ‘cov:’ ‘pi:’
+  ‘y:’ ‘x:’ ‘cov:’ ‘pi:’ ‘keepZeroWeight:’
 
 Undocumented arguments in documentation object 'pi_estimation'
   ‘expression_matrix’ ‘n_iteration’ ‘prior’
