@@ -10,6 +10,7 @@
 #' @param pi: An estimation of cell-type faction of the cell type of interest (e.g.
 #' epithelial). It can be estimated using existing methods
 #' in the literature or from the output of pi_estimation function.
+#' @param keepZeroWeight: Whether to keep predictors with zero weights.
 #'
 #' @return A data frame with weight for cell 1 and 2, including the potential meta data for the SNP/gene.
 #' @export
