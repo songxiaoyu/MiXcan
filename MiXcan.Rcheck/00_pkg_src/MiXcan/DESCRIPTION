@@ -13,5 +13,5 @@ RoxygenNote: 7.2.3
 Imports: doParallel, tidyverse, Matrix, glmnet, broom, dplyr,
 Remotes: github::yaowuliu/ACAT
 NeedsCompilation: no
-Packaged: 2023-11-06 17:50:41 UTC; songxiaoyu152
+Packaged: 2023-12-14 18:53:56 UTC; songxiaoyu152
 Depends: R (>= 3.5.0)

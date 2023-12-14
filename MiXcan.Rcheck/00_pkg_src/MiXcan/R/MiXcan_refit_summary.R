@@ -16,12 +16,8 @@
 #'
 MiXcan_refit_summary <- function(model, x, y, pi, cov=NULL) {
   summary <- MiXcan_extract_summary(x=x, y=y, pi=pi, model=model)
-  weights=MiXcan_extract_weight(model, keepZeroWeight=T)
-  w2 <- MiXcan_refit_weight(model = model, y=y,x=x, cov = cov, pi= pi)
-  idx=match(w2$xNameMatrix, weights$xNameMatrix)
-  weights$weight_cell_1[idx]=w2$weight_cell_1
-  weights$weight_cell_2[idx]=w2$weight_cell_2
-
+  weights <- MiXcan_refit_weight(model = model, y=y,x=x, cov = cov, pi= pi, keepZeroWeight=T)
+ 
   yhat=x %*% weights$weight_cell_1 *pi + x %*% weights$weight_cell_2 *(1-pi)
 
   r=cor.test(y,yhat, use="complete.obs")
