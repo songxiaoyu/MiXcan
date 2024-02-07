@@ -95,12 +95,6 @@ data(example_data)
 ```
 
 ### MiXcan analysis pipeline
-```{r}
-library(doParallel)
-library(tidyverse)
-nCores=detectCores()-1; registerDoParallel(nCores) # use parallel computing for speed, but leave 1 core out for other activities. 
-
-```
 Step 1: Improving the estimation of the cell-type composition from prior. This step is optional, and can be ignored if input cell-type composition estimates is preferred. 
 ```{r}
 set.seed(123)
@@ -131,23 +125,6 @@ MiXcan_weight_result
 ```{r}
 MiXcan_summary_result <- MiXcan_extract_summary(x=x_example, y=y_example, pi=pi_example, model=MiXcan_result)
 MiXcan_summary_result
-```
-Note, the MiXcan estimated weights are from penalized regression (elastic-net), which shrinks the effect size towards zero. If users are interested to use un-penalized weights for the MiXcan selected SNPs, they can employ the following function: 
-```{r}
-MiXcan_weight_refit <- MiXcan_refit_weight(model = MiXcan_result, y=y_example, 
-                                           x=x_example, cov = cov_example, 
-                                           pi= pi_example)
-MiXcan_weight_refit
-
-
-```
-Similarly, one can get the refitted model summary.
-```{r}
-MiXcan_summary_refit <- MiXcan_refit_summary(model = MiXcan_result, y=y_example, 
-                                           x=x_example, cov = cov_example, 
-                                           pi= pi_example)
-                                           
-MiXcan_summary_refit 
 ```
 
 Step 4: Predicting the cell-type-specific or nonspecific expression levels of the gene in a new genetic data.

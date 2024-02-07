@@ -111,38 +111,6 @@ data(example_data)
 
 ### MiXcan analysis pipeline
 
-``` r
-library(doParallel)
-```
-
-    ## Loading required package: foreach
-
-    ## Loading required package: iterators
-
-    ## Loading required package: parallel
-
-``` r
-library(tidyverse)
-```
-
-    ## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-    ## ✔ dplyr     1.1.0     ✔ readr     2.1.4
-    ## ✔ forcats   1.0.0     ✔ stringr   1.5.0
-    ## ✔ ggplot2   3.4.1     ✔ tibble    3.2.1
-    ## ✔ lubridate 1.9.2     ✔ tidyr     1.3.0
-    ## ✔ purrr     1.0.1
-
-    ## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-    ## ✖ purrr::accumulate() masks foreach::accumulate()
-    ## ✖ dplyr::filter()     masks stats::filter()
-    ## ✖ dplyr::lag()        masks stats::lag()
-    ## ✖ purrr::when()       masks foreach::when()
-    ## ℹ Use the ]8;;http://conflicted.r-lib.org/conflicted package]8;; to force all conflicts to become errors
-
-``` r
-nCores=detectCores()-1; registerDoParallel(nCores) # use parallel computing for speed, but leave 1 core out for other activities. 
-```
-
 Step 1: Improving the estimation of the cell-type composition from
 prior. This step is optional, and can be ignored if input cell-type
 composition estimates is preferred.
@@ -175,14 +143,14 @@ MiXcan_result$beta.SNP.cell1
     ##    xNameMatrix      weight
     ## 1         SNP1  0.00000000
     ## 2         SNP2  0.00000000
-    ## 3         SNP3  0.00614620
-    ## 4         SNP4  0.04108504
+    ## 3         SNP3  0.01675598
+    ## 4         SNP4  0.05282617
     ## 5         SNP5  0.00000000
     ## 6         SNP6  0.00000000
     ## 7         SNP7  0.00000000
     ## 8         SNP8  0.00000000
     ## 9         SNP9  0.00000000
-    ## 10       SNP10 -0.03021309
+    ## 10       SNP10 -0.01754009
     ## 11       SNP11  0.00000000
     ## 12       SNP12  0.00000000
     ## 13       SNP13  0.00000000
@@ -191,7 +159,7 @@ MiXcan_result$beta.SNP.cell1
     ## 16       SNP16  0.00000000
     ## 17       SNP17  0.00000000
     ## 18       SNP18  0.00000000
-    ## 19       SNP19 -0.06553891
+    ## 19       SNP19 -0.07213873
 
 ``` r
 MiXcan_result$beta.SNP.cell2
@@ -200,14 +168,14 @@ MiXcan_result$beta.SNP.cell2
     ##    xNameMatrix      weight
     ## 1         SNP1  0.00000000
     ## 2         SNP2  0.00000000
-    ## 3         SNP3  0.00614620
-    ## 4         SNP4  0.04108504
+    ## 3         SNP3  0.01675598
+    ## 4         SNP4  0.05282617
     ## 5         SNP5  0.00000000
     ## 6         SNP6  0.00000000
     ## 7         SNP7  0.00000000
     ## 8         SNP8  0.00000000
     ## 9         SNP9  0.00000000
-    ## 10       SNP10 -0.03021309
+    ## 10       SNP10 -0.01754009
     ## 11       SNP11  0.00000000
     ## 12       SNP12  0.00000000
     ## 13       SNP13  0.00000000
@@ -216,7 +184,7 @@ MiXcan_result$beta.SNP.cell2
     ## 16       SNP16  0.00000000
     ## 17       SNP17  0.00000000
     ## 18       SNP18  0.00000000
-    ## 19       SNP19 -0.06553891
+    ## 19       SNP19 -0.07213873
 
 Step 3: Extracting the weights and model summaries from the MiXcan
 output.
@@ -232,10 +200,10 @@ MiXcan_weight_result
 ```
 
     ##   xNameMatrix weight_cell_1 weight_cell_2        type
-    ## 1        SNP3    0.00614620    0.00614620 NonSpecific
-    ## 2        SNP4    0.04108504    0.04108504 NonSpecific
-    ## 3       SNP10   -0.03021309   -0.03021309 NonSpecific
-    ## 4       SNP19   -0.06553891   -0.06553891 NonSpecific
+    ## 1        SNP3    0.01675598    0.01675598 NonSpecific
+    ## 2        SNP4    0.05282617    0.05282617 NonSpecific
+    ## 3       SNP10   -0.01754009   -0.01754009 NonSpecific
+    ## 4       SNP19   -0.07213873   -0.07213873 NonSpecific
 
 ``` r
 MiXcan_summary_result <- MiXcan_extract_summary(x=x_example, y=y_example, pi=pi_example, model=MiXcan_result)
@@ -248,57 +216,10 @@ MiXcan_summary_result <- MiXcan_extract_summary(x=x_example, y=y_example, pi=pi_
 MiXcan_summary_result
 ```
 
-    ##     n_snp_input n_snp_model model_type    in_sample_r2        
-    ## cor "19"        "4"         "NonSpecific" "0.0935647635902331"
-    ##     in_sample_cor_pvalue  
-    ## cor "0.000522283468456319"
-
-Note, the MiXcan estimated weights are from penalized regression
-(elastic-net), which shrinks the effect size towards zero. If users are
-interested to use un-penalized weights for the MiXcan selected SNPs,
-they can employ the following function:
-
-``` r
-MiXcan_weight_refit <- MiXcan_refit_weight(model = MiXcan_result, y=y_example, 
-                                           x=x_example, cov = cov_example, 
-                                           pi= pi_example)
-```
-
-    ## Joining with `by = join_by(xNameMatrix)`
-    ## Joining with `by = join_by(xNameMatrix)`
-
-``` r
-MiXcan_weight_refit
-```
-
-    ##   xNameMatrix weight_cell_1 weight_cell_2        type
-    ## 1        SNP3    0.07927261    0.07927261 NonSpecific
-    ## 2        SNP4    0.06740230    0.06740230 NonSpecific
-    ## 3       SNP10   -0.02813351   -0.02813351 NonSpecific
-    ## 4       SNP19   -0.12835906   -0.12835906 NonSpecific
-
-Similarly, one can get the refitted model summary.
-
-``` r
-MiXcan_summary_refit <- MiXcan_refit_summary(model = MiXcan_result, y=y_example, 
-                                           x=x_example, cov = cov_example, 
-                                           pi= pi_example)
-```
-
-    ## Joining with `by = join_by(xNameMatrix)`
-    ## Joining with `by = join_by(xNameMatrix)`
-    ## Joining with `by = join_by(xNameMatrix)`
-    ## Joining with `by = join_by(xNameMatrix)`
-    ## Joining with `by = join_by(xNameMatrix)`
-
-``` r
-MiXcan_summary_refit 
-```
-
-    ##     n_snp_input n_snp_model  model_type       in_sample_r2 in_sample_cor_pvalue
-    ## cor          19           4 NonSpecific 0.0935647635902331 0.000522283468456319
-    ##     in_sample_r2_refit in_sample_cor_pvalue_refit
-    ## cor          0.0886509               0.0007455809
+    ##     n_snp_input n_snp_model model_type    in_sample_r2      
+    ## cor "19"        "4"         "NonSpecific" "0.08337588020239"
+    ##     in_sample_cor_pvalue
+    ## cor "0.0010918278427708"
 
 Step 4: Predicting the cell-type-specific or nonspecific expression
 levels of the gene in a new genetic data.
@@ -308,10 +229,10 @@ MiXcan_prediction_result <- MiXcan_prediction(weight = MiXcan_weight_result, new
 MiXcan_prediction_result[1:3,]
 ```
 
-    ##           cell_1      cell_2
-    ## [1,]  0.00000000  0.00000000
-    ## [2,] -0.01319494 -0.01319494
-    ## [3,]  0.01701815  0.01701815
+    ##          cell_1     cell_2
+    ## [1,] 0.00000000 0.00000000
+    ## [2,] 0.03450198 0.03450198
+    ## [3,] 0.05204207 0.05204207
 
 Step 5: Association analysis with MiXcan predicted GReX levels
 
@@ -322,8 +243,8 @@ MiXcan_association_result <- MiXcan_association(new_y = MiXcan_prediction_result
 MiXcan_association_result
 ```
 
-    ##   cell1_est cell1_se   cell1_p cell2_est cell2_se   cell2_p p_combined
-    ## 1 -1.213994 1.953321 0.5342691 -1.213994 1.953321 0.5342691  0.5342691
+    ##    cell1_est cell1_se   cell1_p  cell2_est cell2_se   cell2_p p_combined
+    ## 1 -0.8324663 1.697274 0.6237995 -0.8324663 1.697274 0.6237995  0.6237995
 
 ## Pretrained models:
 

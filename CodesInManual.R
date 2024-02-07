@@ -1,19 +1,19 @@
 rm(list=ls())
 library(MiXcan)
-library(doParallel)
-library(tidyverse)
-nCores=detectCores()-1; registerDoParallel(nCores) # use parallel computing for speed,
+# library(doParallel)
+# library(tidyverse)
+# nCores=detectCores()-1; registerDoParallel(nCores) # use parallel computing for speed,
 
-save(GTEx_epithelial_genes, GTEx_prior,
-     x_example, y_example, cov_example,
-     new_X_example, new_outcome_example, new_cov_example,
-     file="example_data.rda")
-a=colnames(new_X_example)
-new_X_example=matrix(rbinom(2000, 2, 0.3), ncol=4)
-colnames(new_X_example)=c("SNP3", "SNP4", "SNP10", "SNP19")
-new_outcome_example=rbinom(500, 1, 0.3)
-new_cov_example=cbind(age=round(rnorm(500, 50), 2), female=rbinom(500, 1, 0.45))
 
+# a=colnames(new_X_example)
+# new_X_example=matrix(rbinom(2000, 2, 0.3), ncol=4)
+# colnames(new_X_example)=c("SNP3", "SNP4", "SNP10", "SNP19")
+# new_outcome_example=rbinom(500, 1, 0.3)
+# new_cov_example=cbind(age=round(rnorm(500, 50), 2), female=rbinom(500, 1, 0.45))
+# save(GTEx_epithelial_genes, GTEx_prior,
+#      x_example, y_example, cov_example,
+#      new_X_example, new_outcome_example, new_cov_example,
+#      file="example_data.rda")
 
 data(example_data)
 # pi est
@@ -42,23 +42,14 @@ MiXcan_summary_result <- MiXcan_extract_summary(x=x_example, y=y_example,
                                                 pi=pi_example, model=MiXcan_result)
 MiXcan_summary_result
 
-# Refit
-MiXcan_weight_refit <- MiXcan_refit_weight(model = MiXcan_result,
-                                           y=y_example,
-                                           x=x_example, cov = cov_example,
-                                           pi= pi_example)
-MiXcan_weight_refit
-MiXcan_summary_refit <- MiXcan_refit_summary(model = MiXcan_result, y=y_example,
-                                             x=x_example, cov = cov_example,
-                                             pi= pi_example)
-
-MiXcan_summary_refit
 
 # Prediction in a new data
 MiXcan_prediction_result <- MiXcan_prediction(weight = MiXcan_weight_result, new_x = new_X_example)
 MiXcan_prediction_result
 
 # Association in a new data
-MiXcan_association_result <- MiXcan_association(MiXcan_predicted_expr = MiXcan_prediction_result,
-                                                covariates = covariates_example, outcome = outcome_example, family  = "binomial")
+MiXcan_association_result <- MiXcan_association(new_y=MiXcan_prediction_result, 
+                                                new_cov = new_cov_example, 
+                                                new_outcome = new_outcome_example,
+                                                family  = "binomial")
 MiXcan_association_result

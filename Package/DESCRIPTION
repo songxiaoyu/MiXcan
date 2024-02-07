@@ -16,5 +16,7 @@ Imports:
     glmnet,
     broom,
     dplyr,
+    foreach,
+    tibble,
 Remotes: 
     github::yaowuliu/ACAT

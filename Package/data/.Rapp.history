@@ -1,2 +1,10 @@
 load("/Users/songxiaoyu152/Library/CloudStorage/OneDrive-TheMountSinaiHospital/CPTAC_Song/Paper_MiXcan/Github/Package/data/example_data.rda")
 dim(new_cov_example)
+load("/Users/songxiaoyu152/Dropbox/Density_Song/Paper_MiXcan/Github/Package/data/example_data.rda")
+objects()
+x_example[1:3, 1:3]
+summary(x_example[,1])
+summary(x_example[,2])
+summary(x_example[,3])
+summary(as.numeric(x_example))
+summary(as.numeric(new_X_example))

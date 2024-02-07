@@ -16,7 +16,7 @@ but not in the expression matrix.}
 \item{prior:}{Prior estimation of cell-type composition.}
 }
 \value{
-Updated cell-type composition estimates. A ribble of 2 columns: The first columns shows the sample id, the second column shows the robust cell-type composition estimation
+Updated cell-type composition estimates. A tibble of 2 columns: The first columns shows the sample id, the second column shows the robust cell-type composition estimation
 }
 \description{
 A function to get robust cell-type composition estimation based on the prior estimates and transcriptomic data.
