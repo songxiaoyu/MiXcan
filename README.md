@@ -186,8 +186,7 @@ MiXcan_result$beta.SNP.cell2
     ## 18       SNP18  0.00000000
     ## 19       SNP19 -0.07213873
 
-Step 3: Extracting the weights and model summaries from the MiXcan
-output.
+Step 3: Extracting the weights from the MiXcan output.
 
 ``` r
 MiXcan_weight_result <- MiXcan_extract_weight(model = MiXcan_result)
@@ -204,22 +203,6 @@ MiXcan_weight_result
     ## 2        SNP4    0.05282617    0.05282617 NonSpecific
     ## 3       SNP10   -0.01754009   -0.01754009 NonSpecific
     ## 4       SNP19   -0.07213873   -0.07213873 NonSpecific
-
-``` r
-MiXcan_summary_result <- MiXcan_extract_summary(x=x_example, y=y_example, pi=pi_example, model=MiXcan_result)
-```
-
-    ## Joining with `by = join_by(xNameMatrix)`
-    ## Joining with `by = join_by(xNameMatrix)`
-
-``` r
-MiXcan_summary_result
-```
-
-    ##     n_snp_input n_snp_model model_type    in_sample_r2      
-    ## cor "19"        "4"         "NonSpecific" "0.08337588020239"
-    ##     in_sample_cor_pvalue
-    ## cor "0.0010918278427708"
 
 Step 4: Predicting the cell-type-specific or nonspecific expression
 levels of the gene in a new genetic data.

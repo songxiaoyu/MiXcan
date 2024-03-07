@@ -19,8 +19,7 @@
 * checking installed package size ... OK
 * checking package directory ... OK
 * checking for future file timestamps ... OK
-* checking DESCRIPTION meta-information ... WARNING
-Invalid license file pointers: LICENSE
+* checking DESCRIPTION meta-information ... OK
 * checking top-level files ... OK
 * checking for left-over files ... OK
 * checking index information ... OK
@@ -35,7 +34,7 @@ Invalid license file pointers: LICENSE
 * checking dependencies in R code ... WARNING
 '::' or ':::' import not declared from: ‘ACAT’
 Namespaces in Imports field not imported from:
-  ‘doParallel’ ‘tidyverse’
+  ‘Matrix’ ‘tidyverse’
   All declared Imports should be used.
 * checking S3 generic/method consistency ... OK
 * checking replacement functions ... OK
@@ -49,44 +48,20 @@ MiXcan_association: no visible binding for global variable ‘gaussian’
 MiXcan_association: no visible global function definition for ‘glm’
 MiXcan_association: no visible global function definition for
   ‘as.formula’
-MiXcan_association: no visible global function definition for ‘%>%’
-MiXcan_association: no visible global function definition for ‘filter’
 MiXcan_association: no visible binding for global variable ‘term’
 MiXcan_association: no visible global function definition for ‘cor’
-MiXcan_association: no visible global function definition for ‘mutate’
 MiXcan_association: no visible binding for global variable ‘estimate’
 MiXcan_association: no visible binding for global variable ‘std.error’
 MiXcan_association: no visible binding for global variable ‘p.value’
-MiXcan_association: no visible global function definition for
-  ‘bind_cols’
-MiXcan_extract_summary: no visible global function definition for
-  ‘cor.test’
-MiXcan_extract_weight: no visible global function definition for ‘%>%’
 MiXcan_extract_weight: no visible binding for global variable ‘weight’
-MiXcan_extract_weight: no visible global function definition for
-  ‘inner_join’
-MiXcan_extract_weight: no visible global function definition for
-  ‘mutate’
-MiXcan_extract_weight: no visible global function definition for
-  ‘add_column’
 MiXcan_extract_weight: no visible binding for global variable
   ‘weight_cell_1’
 MiXcan_extract_weight: no visible binding for global variable
   ‘weight_cell_2’
-MiXcan_refit_summary: no visible global function definition for
-  ‘cor.test’
-MiXcan_refit_summary: no visible global function definition for ‘%>%’
-MiXcan_refit_summary: no visible global function definition for
-  ‘mutate’
-MiXcan_refit_weight: no visible global function definition for ‘lm’
-MiXcan_refit_weight: no visible global function definition for ‘%>%’
-MiXcan_refit_weight: no visible binding for global variable
-  ‘weight_cell_1’
 calculateLL.1d : <anonymous>: no visible global function definition for
   ‘dnorm’
 deNet_purity: no visible binding for global variable ‘sd’
 deNet_purity: no visible global function definition for ‘var’
-deNet_purity: no visible global function definition for ‘foreach’
 deNet_purity : <anonymous> : f: no visible global function definition
   for ‘dnorm’
 deNet_purity : <anonymous>: no visible global function definition for
@@ -95,23 +70,15 @@ deNet_purity : <anonymous> : f: no visible global function definition
   for ‘dbeta’
 deNet_purity : f: no visible global function definition for ‘dbeta’
 deNet_purity: no visible global function definition for ‘optim’
-pi_estimation: no visible global function definition for ‘foreach’
-pi_estimation: no visible global function definition for ‘tibble’
 pi_estimation: no visible binding for global variable ‘i’
-pi_estimation: no visible global function definition for ‘%>%’
-pi_estimation: no visible global function definition for ‘group_by’
-pi_estimation: no visible global function definition for ‘summarise’
 pi_estimation: no visible binding for global variable ‘prop’
-pi_estimation: no visible binding for global variable ‘ungroup’
 Undefined global functions or variables:
-  %>% add_column as.formula bind_cols coef cor cor.test dbeta dnorm
-  estimate filter foreach gaussian glm group_by i inner_join lm mutate
-  optim p.value prop quantile sd std.error summarise term tibble
-  ungroup var weight weight_cell_1 weight_cell_2
+  as.formula coef cor dbeta dnorm estimate gaussian glm i lm optim
+  p.value prop quantile sd std.error term var weight weight_cell_1
+  weight_cell_2
 Consider adding
-  importFrom("stats", "as.formula", "coef", "cor", "cor.test", "dbeta",
-             "dnorm", "filter", "gaussian", "glm", "lm", "optim",
-             "quantile", "sd", "var")
+  importFrom("stats", "as.formula", "coef", "cor", "dbeta", "dnorm",
+             "gaussian", "glm", "lm", "optim", "quantile", "sd", "var")
 to your NAMESPACE file.
 * checking Rd files ... OK
 * checking Rd metadata ... OK
@@ -129,42 +96,7 @@ All user-level objects in a package should have documentation entries.
 See chapter ‘Writing R documentation files’ in the ‘Writing R
 Extensions’ manual.
 * checking for code/documentation mismatches ... OK
-* checking Rd \usage sections ... WARNING
-Undocumented arguments in documentation object 'MiXcan'
-  ‘y’ ‘x’ ‘cov’ ‘pi’ ‘xNameMatrix’ ‘yName’ ‘foldid’
-Documented arguments not in \usage in documentation object 'MiXcan':
-  ‘y:’ ‘x:’ ‘cov:’ ‘pi:’ ‘xNameMatrix:’ ‘yName:’ ‘foldid:’
-
-Undocumented arguments in documentation object 'MiXcan_association'
-  ‘new_y’ ‘new_cov’ ‘new_outcome’ ‘family’
-Documented arguments not in \usage in documentation object 'MiXcan_association':
-  ‘new_y:’ ‘new_cov:’ ‘new_outcome:’ ‘family:’
-
-Undocumented arguments in documentation object 'MiXcan_extract_summary'
-  ‘x’ ‘y’ ‘pi’
-Documented arguments not in \usage in documentation object 'MiXcan_extract_summary':
-  ‘y:’ ‘x:’ ‘pi:’
-
-Undocumented arguments in documentation object 'MiXcan_refit_summary'
-  ‘x’ ‘y’ ‘pi’ ‘cov’
-Documented arguments not in \usage in documentation object 'MiXcan_refit_summary':
-  ‘y:’ ‘x:’ ‘cov:’ ‘pi:’
-
-Undocumented arguments in documentation object 'MiXcan_refit_weight'
-  ‘x’ ‘y’ ‘cov’ ‘pi’ ‘keepZeroWeight’
-Documented arguments not in \usage in documentation object 'MiXcan_refit_weight':
-  ‘y:’ ‘x:’ ‘cov:’ ‘pi:’ ‘keepZeroWeight:’
-
-Undocumented arguments in documentation object 'pi_estimation'
-  ‘expression_matrix’ ‘n_iteration’ ‘prior’
-Documented arguments not in \usage in documentation object 'pi_estimation':
-  ‘expression_matrix:’ ‘n_iteration:’ ‘prior:’
-
-Functions with \usage entries need to have the appropriate \alias
-entries, and all their arguments documented.
-The \usage entries must correspond to syntactically valid R code.
-See chapter ‘Writing R documentation files’ in the ‘Writing R
-Extensions’ manual.
+* checking Rd \usage sections ... OK
 * checking Rd contents ... OK
 * checking for unstated dependencies in examples ... OK
 * checking contents of ‘data’ directory ... OK
@@ -175,4 +107,4 @@ Extensions’ manual.
 * checking for non-standard things in the check directory ... OK
 * checking for detritus in the temp directory ... OK
 * DONE
-Status: 4 WARNINGs, 1 NOTE
+Status: 2 WARNINGs, 1 NOTE

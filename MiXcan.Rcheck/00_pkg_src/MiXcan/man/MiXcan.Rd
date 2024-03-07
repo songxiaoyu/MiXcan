@@ -7,22 +7,22 @@
 MiXcan(y, x, cov = NULL, pi, xNameMatrix = NULL, yName = NULL, foldid = NULL)
 }
 \arguments{
-\item{y:}{The pre-cleaned expression level data for a single gene in N samples.}
+\item{y}{The pre-cleaned expression level data for a single gene in N samples.}
 
-\item{x:}{A N by P matrix for all the genetic predictors used to predict the genetically regulated expression  of the gene.}
+\item{x}{A N by P matrix for all the genetic predictors used to predict the genetically regulated expression  of the gene.}
 
-\item{cov:}{A N by Q matrix for the covariates adjusted in the model (e.g. age, population stratification).}
+\item{cov}{A N by Q matrix for the covariates adjusted in the model (e.g. age, population stratification).}
 
-\item{pi:}{An estimation of cell-type fraction for the cell type of interest (e.g.
+\item{pi}{An estimation of cell-type fraction for the cell type of interest (e.g.
 epithelial). It can be obtained using existing methods
 in the literature or from the output of pi_estimation function.}
 
-\item{xNameMatrix:}{Default is NULL. A matrix to save theX matrix information,
+\item{xNameMatrix}{Default is NULL. A matrix to save theX matrix information,
 such as variable ID, position, rsid, ref_allele, eff_allele.}
 
-\item{yName:}{Default is NULL. A row vector to save the expression information, such as gene ID, gene name.}
+\item{yName}{Default is NULL. A row vector to save the expression information, such as gene ID, gene name.}
 
-\item{foldid:}{Default is NULL. 10-fold cross-validation (CV) is used in our pipeline. A random split
+\item{foldid}{Default is NULL. 10-fold cross-validation (CV) is used in our pipeline. A random split
 is considered if foldid is NULL. Otherwise foldid is used to split the data for CV.}
 }
 \value{

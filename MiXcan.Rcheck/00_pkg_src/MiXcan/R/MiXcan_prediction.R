@@ -10,7 +10,7 @@
 MiXcan_prediction <- function(weight, new_x){
   yhat_MiXcan_cell_1 <- new_x %*% as.matrix(weight[,"weight_cell_1"])
   yhat_MiXcan_cell_2 <- new_x %*% as.matrix(weight[,"weight_cell_2"])
-  yhat_MiXcan_prediction <- cbind(yhat_MiXcan_cell_1, yhat_MiXcan_cell_1)
+  yhat_MiXcan_prediction <- cbind(yhat_MiXcan_cell_1, yhat_MiXcan_cell_2)
   colnames(yhat_MiXcan_prediction) <- c("cell_1", "cell_2")
   return(yhat_MiXcan_prediction)
 

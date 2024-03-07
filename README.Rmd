@@ -116,15 +116,10 @@ MiXcan_result$beta.SNP.cell1
 MiXcan_result$beta.SNP.cell2
 ```
 
-Step 3: Extracting the weights and model summaries from the MiXcan output.
+Step 3: Extracting the weights from the MiXcan output.
 ```{r}
 MiXcan_weight_result <- MiXcan_extract_weight(model = MiXcan_result)
 MiXcan_weight_result
-```
-
-```{r}
-MiXcan_summary_result <- MiXcan_extract_summary(x=x_example, y=y_example, pi=pi_example, model=MiXcan_result)
-MiXcan_summary_result
 ```
 
 Step 4: Predicting the cell-type-specific or nonspecific expression levels of the gene in a new genetic data.

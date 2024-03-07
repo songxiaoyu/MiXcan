@@ -2,11 +2,8 @@
 
 export(MiXcan)
 export(MiXcan_association)
-export(MiXcan_extract_summary)
 export(MiXcan_extract_weight)
 export(MiXcan_prediction)
-export(MiXcan_refit_summary)
-export(MiXcan_refit_weight)
 export(deNet_purity)
 export(pi_estimation)
 import(doParallel)

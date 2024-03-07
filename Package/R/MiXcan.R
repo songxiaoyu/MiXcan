@@ -2,16 +2,16 @@
 #'
 #' The core function of MiXcan package for estimating the
 #' cell-type level prediction weights of a gene.
-#' @param y: The pre-cleaned expression level data for a single gene in N samples.
-#' @param x: A N by P matrix for all the genetic predictors used to predict the genetically regulated expression  of the gene.
-#' @param cov: A N by Q matrix for the covariates adjusted in the model (e.g. age, population stratification).
-#' @param pi: An estimation of cell-type fraction for the cell type of interest (e.g.
+#' @param y The pre-cleaned expression level data for a single gene in N samples.
+#' @param x A N by P matrix for all the genetic predictors used to predict the genetically regulated expression  of the gene.
+#' @param cov A N by Q matrix for the covariates adjusted in the model (e.g. age, population stratification).
+#' @param pi An estimation of cell-type fraction for the cell type of interest (e.g.
 #' epithelial). It can be obtained using existing methods
 #' in the literature or from the output of pi_estimation function.
-#' @param xNameMatrix: Default is NULL. A matrix to save theX matrix information,
+#' @param xNameMatrix Default is NULL. A matrix to save theX matrix information,
 #' such as variable ID, position, rsid, ref_allele, eff_allele.
-#' @param yName: Default is NULL. A row vector to save the expression information, such as gene ID, gene name.
-#' @param foldid: Default is NULL. 10-fold cross-validation (CV) is used in our pipeline. A random split
+#' @param yName Default is NULL. A row vector to save the expression information, such as gene ID, gene name.
+#' @param foldid Default is NULL. 10-fold cross-validation (CV) is used in our pipeline. A random split
 #' is considered if foldid is NULL. Otherwise foldid is used to split the data for CV.
 #' @return list with 9 elements. It contains
 #'

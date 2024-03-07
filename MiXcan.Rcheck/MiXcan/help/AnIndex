@@ -1,8 +1,5 @@
 MiXcan	MiXcan
 MiXcan_association	MiXcan_association
-MiXcan_extract_summary	MiXcan_extract_summary
 MiXcan_extract_weight	MiXcan_extract_weight
 MiXcan_prediction	MiXcan_prediction
-MiXcan_refit_summary	MiXcan_refit_summary
-MiXcan_refit_weight	MiXcan_refit_weight
 pi_estimation	pi_estimation

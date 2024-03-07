@@ -1,26 +1,30 @@
 #' A function to get robust cell-type composition estimation based on the prior estimates and transcriptomic data.
 #'
-#' @param expression_matrix: G by N gene expression matrix for estimating cell type composition of the tissue.
+#' @param expression_matrix G by N gene expression matrix for estimating cell type composition of the tissue.
 #' Each row is a gene and each column is tissue sample. Gene name and sample ID can be included as row and column names,
 #' but not in the expression matrix.
-#' @param n_iteration: Number of bootstrap samples to estimate the pi.
-#' @param prior: Prior estimation of cell-type composition.
-#' @importFrom foreach %dopar%
-#'
-#' @return Updated cell-type composition estimates. A ribble of 2 columns: The first columns shows the sample id, the second column shows the robust cell-type composition estimation
+#' @param n_iteration Number of bootstrap samples to estimate the pi.
+#' @param prior Prior estimation of cell-type composition.
+#' @import dplyr tibble foreach parallel doParallel
+#' @return Updated cell-type composition estimates. A tibble of 2 columns: The first columns shows the sample id, the second column shows the robust cell-type composition estimation
 #' @export
 #'
 #'
 
 pi_estimation <- function(expression_matrix,
                           n_iteration=5, prior){
+  nCores <- parallel::detectCores() -2
+  doParallel::registerDoParallel(nCores -2)
 
   TSNetB_prop=foreach (i = 1:n_iteration, .combine = "rbind") %dopar%{
-    sample_index <- sample(sample(1:dim(expression_matrix)[2], round(dim(expression_matrix)[2] * 0.8), replace = FALSE))
-    TSNetB=try(deNet_purity(t(expression_matrix[,sample_index]),purity=prior[sample_index]))
+    sample_index <- sample(sample(1:dim(expression_matrix)[2],
+                                  round(dim(expression_matrix)[2] * 0.8),
+                                  replace = FALSE))
+    TSNetB=try(deNet_purity(t(expression_matrix[,sample_index]),
+                            purity=prior[sample_index]))
 
     if(!inherits(TSNetB, "try-error")) {
-      TSNetB_prop_once <- tibble(sample = colnames(expression_matrix[,sample_index]),
+      TSNetB_prop_once <- tibble::tibble(sample = colnames(expression_matrix[,sample_index]),
                                  prop = TSNetB[[1]],
                                  rep = i)
       TSNetB_prop_once
